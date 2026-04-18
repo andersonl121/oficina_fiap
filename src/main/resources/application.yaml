@@ -2,6 +2,18 @@ spring:
   application:
     name: tc-oficina
 
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/oficina}
+    username: ${SPRING_DATASOURCE_USERNAME:oficina}
+    password: ${SPRING_DATASOURCE_PASSWORD:oficina}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
