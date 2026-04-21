@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,13 +29,13 @@ class VeiculoServiceImplTest {
     @InjectMocks
     private VeiculoServiceImpl veiculoService;
 
-    private UUID id;
+    private Long id;
     private VeiculoEntity entity;
     private VeiculoDto dto;
 
     @BeforeEach
     void setUp() {
-        id = UUID.randomUUID();
+        id = 1L;
         entity = VeiculoEntity.builder()
                 .id(id)
                 .placa("ABC1D23")

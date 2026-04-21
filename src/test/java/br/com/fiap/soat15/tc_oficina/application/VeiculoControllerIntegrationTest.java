@@ -16,7 +16,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 
 import java.util.Map;
-import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -75,7 +74,7 @@ class VeiculoControllerIntegrationTest {
     @Test
     @DisplayName("GET /veiculos/{id} - deve retornar 404 quando não encontrado")
     void deveRetornarErroQuandoVeiculoNaoEncontrado() throws Exception {
-        mockMvc.perform(get("/veiculos/{id}", UUID.randomUUID()))
+        mockMvc.perform(get("/veiculos/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
 
@@ -147,7 +146,7 @@ class VeiculoControllerIntegrationTest {
     @Test
     @DisplayName("DELETE /veiculos/{id} - deve retornar 404 ao deletar inexistente")
     void deveRetornarErroAoDeletarInexistente() throws Exception {
-        mockMvc.perform(delete("/veiculos/{id}", UUID.randomUUID()))
+        mockMvc.perform(delete("/veiculos/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
 

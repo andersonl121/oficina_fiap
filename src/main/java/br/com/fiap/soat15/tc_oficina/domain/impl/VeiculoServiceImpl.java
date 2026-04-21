@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class VeiculoServiceImpl implements VeiculoService {
@@ -26,7 +24,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
-    public VeiculoDto buscarPorId(UUID id) {
+    public VeiculoDto buscarPorId(Long id) {
         return veiculoRepository.findById(id)
                 .map(this::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Veículo não encontrado: " + id));
@@ -42,7 +40,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
-    public VeiculoDto atualizar(UUID id, VeiculoDto dto) {
+    public VeiculoDto atualizar(Long id, VeiculoDto dto) {
         VeiculoEntity entity = veiculoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Veículo não encontrado: " + id));
         entity.setPlaca(dto.getPlaca());
@@ -53,7 +51,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
-    public void deletar(UUID id) {
+    public void deletar(Long id) {
         if (!veiculoRepository.existsById(id)) {
             throw new NoSuchElementException("Veículo não encontrado: " + id);
         }

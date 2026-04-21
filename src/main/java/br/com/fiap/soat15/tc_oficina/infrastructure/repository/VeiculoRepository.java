@@ -4,11 +4,10 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VeiculoRepository extends JpaRepository<VeiculoEntity, UUID> {
+public interface VeiculoRepository extends JpaRepository<VeiculoEntity, Long> {
 
     Optional<VeiculoEntity> findByPlaca(String placa);
 

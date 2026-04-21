@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/veiculos")
@@ -27,7 +26,7 @@ public class VeiculoController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar veículo por ID")
-    public ResponseEntity<VeiculoDto> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<VeiculoDto> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(veiculoService.buscarPorId(id));
     }
 
@@ -39,13 +38,13 @@ public class VeiculoController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar veículo")
-    public ResponseEntity<VeiculoDto> atualizar(@PathVariable UUID id, @RequestBody VeiculoDto dto) {
+    public ResponseEntity<VeiculoDto> atualizar(@PathVariable Long id, @RequestBody VeiculoDto dto) {
         return ResponseEntity.ok(veiculoService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar veículo")
-    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         veiculoService.deletar(id);
         return ResponseEntity.noContent().build();
     }

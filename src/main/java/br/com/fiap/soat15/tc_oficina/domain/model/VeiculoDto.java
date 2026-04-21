@@ -4,14 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VeiculoDto {
-    private UUID id;
+    private Long id;
     private String placa;
     private String marca;
     private String modelo;
