@@ -97,7 +97,56 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve retornar 422 com placa duplicada")
+    @DisplayName("POST /veiculos - deve aceitar placa no formato antigo")
+    void deveAceitarPlacaFormatoAntigo() throws Exception {
+        Map<String, Object> body = Map.of(
+                "placa", "ABC-1234",
+                "marca", "Toyota",
+                "modelo", "Corolla",
+                "ano", 2022
+        );
+
+        mockMvc.perform(post("/veiculos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.placa", is("ABC-1234")));
+    }
+
+    @Test
+    @DisplayName("POST /veiculos - deve retornar 400 com placa inválida")
+    void deveRetornarErroComPlacaInvalida() throws Exception {
+        Map<String, Object> body = Map.of(
+                "placa", "INVALIDA",
+                "marca", "Toyota",
+                "modelo", "Corolla",
+                "ano", 2022
+        );
+
+        mockMvc.perform(post("/veiculos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("POST /veiculos - deve retornar erro com placa vazia")
+    void deveRetornarErroComPlacaVazia() throws Exception {
+        Map<String, Object> body = Map.of(
+                "placa", "",
+                "marca", "Toyota",
+                "modelo", "Corolla",
+                "ano", 2022
+        );
+
+        mockMvc.perform(post("/veiculos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("POST /veiculos - deve retornar 400 com placa duplicada")
     void deveRetornarErroComPlacaDuplicada() throws Exception {
         veiculoRepository.save(veiculoEntity("ABC1D23"));
 

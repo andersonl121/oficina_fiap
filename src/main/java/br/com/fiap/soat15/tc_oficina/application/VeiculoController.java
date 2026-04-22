@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -32,13 +33,13 @@ public class VeiculoController {
 
     @PostMapping
     @Operation(summary = "Cadastrar novo veículo")
-    public ResponseEntity<VeiculoDto> criar(@RequestBody VeiculoDto dto) {
+    public ResponseEntity<VeiculoDto> criar(@Valid @RequestBody VeiculoDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(veiculoService.criar(dto));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar veículo")
-    public ResponseEntity<VeiculoDto> atualizar(@PathVariable Long id, @RequestBody VeiculoDto dto) {
+    public ResponseEntity<VeiculoDto> atualizar(@PathVariable Long id, @Valid @RequestBody VeiculoDto dto) {
         return ResponseEntity.ok(veiculoService.atualizar(id, dto));
     }
 
