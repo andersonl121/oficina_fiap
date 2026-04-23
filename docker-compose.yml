@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_oficina
+    environment:
+      POSTGRES_DB: oficina
+      POSTGRES_USER: oficina
+      POSTGRES_PASSWORD: oficina
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - oficina_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oficina"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  oficina_network:
