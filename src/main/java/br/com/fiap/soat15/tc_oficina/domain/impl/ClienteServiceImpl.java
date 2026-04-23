@@ -1,12 +1,10 @@
 package br.com.fiap.soat15.tc_oficina.domain.impl;
 
 import br.com.fiap.soat15.tc_oficina.domain.service.ClienteService;
-import br.com.fiap.soat15.tc_oficina.domain.model.ClienteDTO;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
-import br.com.fiap.soat15.tc_oficina.util.DocumentoValidator;
+import br.com.fiap.soat15.tc_oficina.domain.validator.DocumentoValidator;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

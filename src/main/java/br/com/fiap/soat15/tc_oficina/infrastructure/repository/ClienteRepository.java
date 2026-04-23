@@ -8,6 +8,8 @@ import java.util.Optional;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     Optional<Cliente> findByCpfCnpj(String cpfCnpj);
+
+    boolean existsByCpfCnpj(String cpfCnpj);
 }
 
 //Identificacao do cliente por CPF/CNPJ;

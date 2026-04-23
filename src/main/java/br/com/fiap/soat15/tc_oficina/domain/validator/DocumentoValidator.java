@@ -1,4 +1,4 @@
-package br.com.fiap.soat15.tc_oficina.util;
+package br.com.fiap.soat15.tc_oficina.domain.validator;
 
 public class DocumentoValidator {
 
