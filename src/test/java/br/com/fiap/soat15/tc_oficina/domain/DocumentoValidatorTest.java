@@ -1,7 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain;
 
 import br.com.fiap.soat15.tc_oficina.domain.validator.DocumentoValidator;
-import br.com.fiap.soat15.tc_oficina.domain.validator.PlacaValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

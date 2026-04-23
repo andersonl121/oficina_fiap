@@ -1,13 +1,9 @@
 package br.com.fiap.soat15.tc_oficina.domain;
 
 import br.com.fiap.soat15.tc_oficina.domain.impl.ClienteServiceImpl;
-import br.com.fiap.soat15.tc_oficina.domain.impl.VeiculoServiceImpl;
 import br.com.fiap.soat15.tc_oficina.domain.model.ClienteDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
-import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
