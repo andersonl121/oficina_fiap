@@ -1,0 +1,41 @@
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/VeiculoServiceImplTest.java
+  2d712665530757a6 5,7,31-33,38-39,46-54,61,63,69,82,105,122,128-129,143-174,185,189,192,199-200,212-220
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/DocumentoValidatorTest.java
+  2d712665530757a6 22-33,43-52
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/validator/DocumentoValidator.java
+  2d712665530757a6 30-31
+src/test/java/br/com/fiap/soat15/tc_oficina/application/VeiculoControllerIntegrationTest.java
+  2d712665530757a6 3,5,37-41,46-53,84-85,102-103,111-112,122-123,140-141,157-158,176-177,186-202,212-213,221-222,247
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/exception/GlobalExceptionHandler.java
+  2d712665530757a6 3,16,62-109
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/model/VeiculoDto.java
+  2d712665530757a6 4,23-24
+src/test/java/br/com/fiap/soat15/tc_oficina/infrastructure/exception/ExceptionHandlerTest.java
+  2d712665530757a6 4,6-8,10-16,20-21,25-27,31-34,36-40,43-93
+src/test/java/br/com/fiap/soat15/tc_oficina/application/ClienteControllerTest.java
+  2d712665530757a6 53,62,77,111,127,131-132,145,160,164-165,178,188,211,220,240,245,254-255,268,283,287-288
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/ClienteServiceImplTest.java
+  2d712665530757a6 41,49,61,71-72,82-83,86-87,92-93,103-105,109,116-117,128,130,132,137,141-142,146-148,152-153,158-159,162-163,165
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/impl/VeiculoServiceImpl.java
+  2d712665530757a6 5,7,19,41-42,54,73,77-85,91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.3",
+  "base_commit_sha": "6ddb999f8ef01a4e7583ff2ae6d7f76e099d63e4",
+  "prompts": {
+    "2d712665530757a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "24d5a1e5-d666-40d3-a75c-176ef18c4467",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal",
+      "messages": [],
+      "total_additions": 363,
+      "total_deletions": 145,
+      "accepted_lines": 349,
+      "overriden_lines": 0
+    }
+  }
+}
