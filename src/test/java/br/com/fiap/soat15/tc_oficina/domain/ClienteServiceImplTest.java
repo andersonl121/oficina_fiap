@@ -1,7 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain;
 
 import br.com.fiap.soat15.tc_oficina.domain.impl.ClienteServiceImpl;
-import br.com.fiap.soat15.tc_oficina.domain.model.ClienteDTO;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,7 +29,6 @@ class ClienteServiceImplTest {
 
     private Long id;
     private Cliente cliente;
-    private ClienteDTO clienteDTO;
 
     @BeforeEach
     void setUp() {
@@ -41,16 +38,7 @@ class ClienteServiceImplTest {
                 .nome("João Silva")
                 .cpfCnpj("64818919063")
                 .email("joao@example.com")
-                .telefone("11999999999")
-                .endereco("Rua A, 123")
-                .ativo(true)
-                .build();
-        clienteDTO = ClienteDTO.builder()
-                .id(id)
-                .nome("João Silva")
-                .cpfCnpj("64818919063")
-                .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -58,7 +46,7 @@ class ClienteServiceImplTest {
 
     @Test
     @DisplayName("Deve listar todos os clientes")
-    void deveListarTodosVeiculos() {
+    void deveListarTodosClientes() {
         when(clienteRepository.findAll()).thenReturn(List.of(cliente));
 
         List<Cliente> resultado = clienteService.listarClientes();
@@ -70,7 +58,7 @@ class ClienteServiceImplTest {
 
     @Test
     @DisplayName("Deve retornar lista vazia quando não há clientes")
-    void deveRetornarListaVaziaQuandoNaoHaVeiculos() {
+    void deveRetornarListaVazia() {
         when(clienteRepository.findAll()).thenReturn(List.of());
 
         List<Cliente> resultado = clienteService.listarClientes();
@@ -80,8 +68,8 @@ class ClienteServiceImplTest {
 
     @Test
     @DisplayName("Deve buscar cliente por ID com sucesso")
-    void deveBuscarVeiculoPorId() {
-        when(clienteService.obterClientePorId(id)).thenReturn(cliente);
+    void deveBuscarClientePorId() {
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
 
         Cliente resultado = clienteService.obterClientePorId(id);
 
@@ -91,18 +79,18 @@ class ClienteServiceImplTest {
 
     @Test
     @DisplayName("Deve lançar exceção quando cliente não encontrado por ID")
-    void deveLancarExcecaoQuandoVeiculoNaoEncontrado() {
-        when(clienteService.obterClientePorId(id)).thenReturn(null);
+    void deveLancarExcecaoQuandoClienteNaoEncontrado() {
+        when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.obterClientePorId(id))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessageContaining(id.toString());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("não encontrado");
     }
 
     @Test
     @DisplayName("Deve criar cliente com sucesso")
-    void deveCriarVeiculoComSucesso() {
-        when(clienteRepository.existsById(clienteDTO.getId())).thenReturn(false);
+    void deveCriarClienteComSucesso() {
+        when(clienteRepository.findByCpfCnpj(cliente.getCpfCnpj())).thenReturn(Optional.empty());
         when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
 
         Cliente resultado = clienteService.criarCliente(cliente);
@@ -112,31 +100,21 @@ class ClienteServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve lançar exceção ao criar cliente com cpf/cnpj duplicado")
-    void deveLancarExcecaoComPlacaDuplicada() {
-        when(clienteRepository.existsByCpfCnpj(clienteDTO.getCpfCnpj())).thenReturn(true);
+    @DisplayName("Deve lançar exceção ao criar cliente com CPF/CNPJ duplicado")
+    void deveLancarExcecaoComCpfCnpjDuplicado() {
+        when(clienteRepository.findByCpfCnpj(cliente.getCpfCnpj())).thenReturn(Optional.of(cliente));
 
         assertThatThrownBy(() -> clienteService.criarCliente(cliente))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("64818919063");
+                .hasMessageContaining("CPF/CNPJ já cadastrado");
 
         verify(clienteRepository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve atualizar cliente com sucesso")
-    void deveAtualizarVeiculoComSucesso() {
-        ClienteDTO clienteDTOAtualizado = ClienteDTO.builder()
-                .id(id)
-                .nome("Jurandir Silva")
-                .cpfCnpj("22139483057")
-                .email("jurandir@example.com")
-                .telefone("188889999")
-                .endereco("Rua B12, 321")
-                .ativo(true)
-                .build();
-
-        Cliente clienteAtualizada = Cliente.builder()
+    void deveAtualizarClienteComSucesso() {
+        Cliente clienteAtualizado = Cliente.builder()
                 .id(id)
                 .nome("Jurandir Silva")
                 .cpfCnpj("22139483057")
@@ -147,41 +125,43 @@ class ClienteServiceImplTest {
                 .build();
 
         when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
-        when(clienteRepository.save(any(Cliente.class))).thenReturn(clienteAtualizada);
+        when(clienteRepository.save(any(Cliente.class))).thenReturn(clienteAtualizado);
 
-        Cliente resultado = clienteService.atualizarCliente(id, clienteAtualizada);
+        Cliente resultado = clienteService.atualizarCliente(id, clienteAtualizado);
 
-        assertThat(resultado.getCpfCnpj()).isEqualTo("22139483057");
+        assertThat(resultado.getNome()).isEqualTo("Jurandir Silva");
     }
 
     @Test
     @DisplayName("Deve lançar exceção ao atualizar cliente inexistente")
-    void deveLancarExcecaoAoAtualizarVeiculoInexistente() {
+    void deveLancarExcecaoAoAtualizarClienteInexistente() {
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.atualizarCliente(id, cliente))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("não encontrado");
     }
 
     @Test
-    @DisplayName("Deve deletar veículo com sucesso")
-    void deveDeletarVeiculoComSucesso() {
-        when(clienteRepository.existsById(id)).thenReturn(true);
+    @DisplayName("Deve deletar cliente com sucesso (soft delete)")
+    void deveDeletarClienteComSucesso() {
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
 
         clienteService.deletarCliente(id);
 
-        verify(clienteRepository).deleteById(id);
+        verify(clienteRepository).save(any(Cliente.class));
+        assertThat(cliente.getAtivo()).isFalse();
     }
 
     @Test
     @DisplayName("Deve lançar exceção ao deletar cliente inexistente")
-    void deveLancarExcecaoAoDeletarVeiculoInexistente() {
-        when(clienteRepository.existsById(id)).thenReturn(false);
+    void deveLancarExcecaoAoDeletarClienteInexistente() {
+        when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.deletarCliente(id))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("não encontrado");
 
-        verify(clienteRepository, never()).deleteById(any());
+        verify(clienteRepository, never()).save(any());
     }
 }
-

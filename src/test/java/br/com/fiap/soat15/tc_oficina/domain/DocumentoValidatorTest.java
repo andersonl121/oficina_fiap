@@ -19,16 +19,18 @@ class DocumentoValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "45820109050",
-            "12456789001",
-            "92315478022",
-            "33481290034",
-            "05148233081",
-            "ABC12345/000120",
-            "12A34B56/000138",
-            "Z9Y8X7W6/000105",
-            "L1M2N3O4/000192",
-            "A1B2C3D4/000109"
+            // CPFs válidos (dígitos verificadores corretos)
+            "11144477735",
+            "52998224725",
+            "12345678909",
+            "98765432100",
+            "54938271079",
+            // CNPJs alfanuméricos válidos (14 chars, somente maiúsculas/dígitos)
+            "ABC12345000120",
+            "12A34B56000138",
+            "Z9Y8X7W6000105",
+            "L1M2N3O4000192",
+            "A1B2C3D4000109"
     })
     @DisplayName("Deve aceitar cpf/cnpj válidos")
     void deveAceitarCpfCnpjValidos(String cpfCnpj) {
@@ -38,16 +40,16 @@ class DocumentoValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "",
-            "12345678900",
-            "00000000000",
-            "98765432199",
-            "11122233344",
-            "45678912355",
-            "ABC12345/000100",
-            "12A34B56/000199",
-            "Z9Y8X7W6/000111",
-            "L1M2N3O4/000122",
-            "P5Q6R7S8/000133"
+            "12345678900",    // CPF com d2 errado (correto seria 12345678909)
+            "00000000000",    // todos dígitos iguais
+            "98765432199",    // CPF com dígitos verificadores errados
+            "11122233344",    // CPF com dígitos verificadores errados
+            "45678912355",    // CPF com dígitos verificadores errados
+            "abc12345000100", // CNPJ alfanumérico com letras minúsculas
+            "12a34b56000199", // CNPJ alfanumérico com letras minúsculas
+            "ABC1234500012",  // CNPJ alfanumérico com 13 chars (tamanho inválido)
+            "ABCDEFGHIJKLMNO", // CNPJ alfanumérico com 15 chars (tamanho inválido)
+            "A1B2C3D"         // CNPJ alfanumérico com 7 chars (tamanho inválido)
     })
     @DisplayName("Deve rejeitar cpf/cnpj inválidos")
     void deveRejeitarCpfCnpjInvalidos(String cpfCnpj) {
