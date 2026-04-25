@@ -1,4 +1,4 @@
-package br.com.fiap.soat15.tc_oficina.domain;
+package br.com.fiap.soat15.tc_oficina.domain.service;
 
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
 

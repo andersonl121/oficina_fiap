@@ -3,7 +3,7 @@ package br.com.fiap.soat15.tc_oficina.domain;
 import br.com.fiap.soat15.tc_oficina.domain.impl.VeiculoServiceImpl;
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ class VeiculoServiceImplTest {
     private Long id;
     private Long clienteId;
     private Cliente cliente;
-    private VeiculoEntity entity;
+    private Veiculo entity;
     private VeiculoDto dto;
 
     @BeforeEach
@@ -52,7 +52,7 @@ class VeiculoServiceImplTest {
                 .ativo(true)
                 .build();
 
-        entity = VeiculoEntity.builder()
+        entity = Veiculo.builder()
                 .id(id)
                 .placa("ABC1D23")
                 .marca("Toyota")
@@ -120,14 +120,14 @@ class VeiculoServiceImplTest {
     void deveCriarVeiculoComSucesso() {
         when(veiculoRepository.existsByPlaca(dto.getPlaca())).thenReturn(false);
         when(clienteRepository.findById(clienteId)).thenReturn(Optional.of(cliente));
-        when(veiculoRepository.save(any(VeiculoEntity.class))).thenReturn(entity);
+        when(veiculoRepository.save(any(Veiculo.class))).thenReturn(entity);
 
         VeiculoDto resultado = veiculoService.criar(dto);
 
         assertThat(resultado.getPlaca()).isEqualTo("ABC1D23");
         assertThat(resultado.getClienteId()).isEqualTo(clienteId);
         verify(clienteRepository).findById(clienteId);
-        verify(veiculoRepository).save(any(VeiculoEntity.class));
+        verify(veiculoRepository).save(any(Veiculo.class));
     }
 
     @Test
@@ -185,12 +185,12 @@ class VeiculoServiceImplTest {
                 .clienteId(clienteId)
                 .build();
 
-        VeiculoEntity entityAtualizada = VeiculoEntity.builder()
+        Veiculo entityAtualizada = Veiculo.builder()
                 .id(id).placa("XYZ9W87").marca("Honda").modelo("Civic").ano(2023).cliente(cliente).build();
 
         when(veiculoRepository.findById(id)).thenReturn(Optional.of(entity));
         when(clienteRepository.findById(clienteId)).thenReturn(Optional.of(cliente));
-        when(veiculoRepository.save(any(VeiculoEntity.class))).thenReturn(entityAtualizada);
+        when(veiculoRepository.save(any(Veiculo.class))).thenReturn(entityAtualizada);
 
         VeiculoDto resultado = veiculoService.atualizar(id, dtoAtualizado);
 
