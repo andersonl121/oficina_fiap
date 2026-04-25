@@ -16,5 +16,5 @@ public interface ServicoService {
 
     List<ServicoDTO> listarServicos();
 
-    ServicoDTO recalcularTempoMedio(Long id, Integer tempoExecucaoMinutos);
+
 }

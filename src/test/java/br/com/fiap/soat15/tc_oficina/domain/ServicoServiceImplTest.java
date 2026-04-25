@@ -197,48 +197,4 @@ class ServicoServiceImplTest {
         verify(servicoRepository, never()).save(any());
     }
 
-    @Test
-    @DisplayName("Deve definir tempo médio na primeira execução")
-    void deveDefinirTempoMedioNaPrimeiraExecucao() {
-        entidade.setTempoMedioExecucaoMinutos(null);
-        when(servicoRepository.findById(id)).thenReturn(Optional.of(entidade));
-        when(servicoRepository.save(any(Servico.class))).thenReturn(entidade);
-
-        ServicoDTO resultado = servicoService.recalcularTempoMedio(id, 40);
-
-        assertThat(resultado.getTempoMedioExecucaoMinutos()).isEqualTo(40);
-        verify(servicoRepository).save(entidade);
-    }
-
-    @Test
-    @DisplayName("Deve recalcular tempo médio com média simples")
-    void deveRecalcularTempoMedioComMediaSimples() {
-        entidade.setTempoMedioExecucaoMinutos(30);
-        when(servicoRepository.findById(id)).thenReturn(Optional.of(entidade));
-        when(servicoRepository.save(any(Servico.class))).thenReturn(entidade);
-
-        ServicoDTO resultado = servicoService.recalcularTempoMedio(id, 50);
-
-        assertThat(resultado.getTempoMedioExecucaoMinutos()).isEqualTo(40); // (30+50)/2
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção ao recalcular tempo com valor inválido")
-    void deveLancarExcecaoComTempoInvalido() {
-        assertThatThrownBy(() -> servicoService.recalcularTempoMedio(id, 0))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("maior que zero");
-
-        assertThatThrownBy(() -> servicoService.recalcularTempoMedio(id, null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção ao recalcular tempo de serviço inexistente")
-    void deveLancarExcecaoAoRecalcularInexistente() {
-        when(servicoRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> servicoService.recalcularTempoMedio(id, 30))
-                .isInstanceOf(NoSuchElementException.class);
-    }
 }

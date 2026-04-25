@@ -61,25 +61,6 @@ public class ServicoServiceImpl implements ServicoService {
                 .toList();
     }
 
-    @Override
-    public ServicoDTO recalcularTempoMedio(Long id, Integer tempoExecucaoMinutos) {
-        if (tempoExecucaoMinutos == null || tempoExecucaoMinutos <= 0) {
-            throw new IllegalArgumentException("Tempo de execução deve ser maior que zero");
-        }
-
-        Servico servico = buscarEntidade(id);
-
-        if (servico.getTempoMedioExecucaoMinutos() == null) {
-            servico.setTempoMedioExecucaoMinutos(tempoExecucaoMinutos);
-        } else {
-            servico.setTempoMedioExecucaoMinutos(
-                    (servico.getTempoMedioExecucaoMinutos() + tempoExecucaoMinutos) / 2
-            );
-        }
-
-        return toDTO(servicoRepository.save(servico));
-    }
-
     private Servico buscarEntidade(Long id) {
         return servicoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Serviço não encontrado: " + id));
