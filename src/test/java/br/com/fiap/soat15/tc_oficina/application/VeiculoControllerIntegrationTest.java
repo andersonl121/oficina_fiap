@@ -1,7 +1,7 @@
 package br.com.fiap.soat15.tc_oficina.application;
 
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +75,7 @@ class VeiculoControllerIntegrationTest {
     @Test
     @DisplayName("GET /veiculos/{id} - deve retornar veículo por ID")
     void deveBuscarVeiculoPorId() throws Exception {
-        VeiculoEntity saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
+        Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
         mockMvc.perform(get("/veiculos/{id}", saved.getId()))
                 .andExpect(status().isOk())
@@ -203,7 +203,7 @@ class VeiculoControllerIntegrationTest {
     @Test
     @DisplayName("PUT /veiculos/{id} - deve atualizar veículo com sucesso")
     void deveAtualizarVeiculo() throws Exception {
-        VeiculoEntity saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
+        Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
         Map<String, Object> body = Map.of(
                 "placa", "XYZ9W87",
@@ -225,7 +225,7 @@ class VeiculoControllerIntegrationTest {
     @Test
     @DisplayName("DELETE /veiculos/{id} - deve deletar veículo com sucesso")
     void deveDeletarVeiculo() throws Exception {
-        VeiculoEntity saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
+        Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
         mockMvc.perform(delete("/veiculos/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
@@ -238,8 +238,8 @@ class VeiculoControllerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    private VeiculoEntity veiculoEntity(String placa) {
-        return VeiculoEntity.builder()
+    private Veiculo veiculoEntity(String placa) {
+        return Veiculo.builder()
                 .placa(placa)
                 .marca("Toyota")
                 .modelo("Corolla")

@@ -10,7 +10,7 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
@@ -52,7 +52,7 @@ class OrdemDeServicoServiceImplTest {
     private OrdemDeServicoServiceImpl ordemService;
 
     private Cliente cliente;
-    private VeiculoEntity veiculo;
+    private Veiculo veiculo;
     private Servico servico;
     private OrdemDeServico ordem;
 
@@ -61,7 +61,7 @@ class OrdemDeServicoServiceImplTest {
         cliente = Cliente.builder()
                 .id(1L).nome("João Silva").cpfCnpj("11144477735").ativo(true).build();
 
-        veiculo = VeiculoEntity.builder()
+        veiculo = Veiculo.builder()
                 .id(2L).placa("ABC1234").marca("Toyota").modelo("Corolla").ano(2020)
                 .cliente(cliente).build();
 
@@ -119,7 +119,7 @@ class OrdemDeServicoServiceImplTest {
     @DisplayName("Deve lançar exceção quando veículo não pertence ao cliente")
     void deveLancarExcecaoVeiculoNaoPertenceAoCliente() {
         Cliente outroCliente = Cliente.builder().id(99L).nome("Outro").build();
-        VeiculoEntity veiculoDeOutro = VeiculoEntity.builder()
+        Veiculo veiculoDeOutro = Veiculo.builder()
                 .id(2L).placa("XYZ9999").cliente(outroCliente).build();
 
         CriarOrdemDTO dto = CriarOrdemDTO.builder()

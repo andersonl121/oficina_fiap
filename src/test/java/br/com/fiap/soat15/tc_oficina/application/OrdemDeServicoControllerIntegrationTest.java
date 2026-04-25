@@ -4,7 +4,7 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
@@ -44,7 +44,7 @@ class OrdemDeServicoControllerIntegrationTest {
     @Autowired private ServicoRepository servicoRepository;
 
     private Cliente clienteSalvo;
-    private VeiculoEntity veiculoSalvo;
+    private Veiculo veiculoSalvo;
     private Servico servicoSalvo;
 
     @BeforeEach
@@ -58,7 +58,7 @@ class OrdemDeServicoControllerIntegrationTest {
         clienteSalvo = clienteRepository.save(Cliente.builder()
                 .nome("João Silva").cpfCnpj("11144477735").ativo(true).build());
 
-        veiculoSalvo = veiculoRepository.save(VeiculoEntity.builder()
+        veiculoSalvo = veiculoRepository.save(Veiculo.builder()
                 .placa("ABC1D23").marca("Toyota").modelo("Corolla").ano(2020)
                 .cliente(clienteSalvo).build());
 

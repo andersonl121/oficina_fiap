@@ -1,9 +1,9 @@
 package br.com.fiap.soat15.tc_oficina.domain.impl;
 
-import br.com.fiap.soat15.tc_oficina.domain.VeiculoService;
+import br.com.fiap.soat15.tc_oficina.domain.service.VeiculoService;
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import lombok.AllArgsConstructor;
@@ -39,13 +39,13 @@ public class VeiculoServiceImpl implements VeiculoService {
             throw new IllegalArgumentException("Já existe um veículo com a placa: " + dto.getPlaca());
         }
         Cliente cliente = buscarCliente(dto.getClienteId());
-        VeiculoEntity entity = toEntity(dto, cliente);
+        Veiculo entity = toEntity(dto, cliente);
         return toDto(veiculoRepository.save(entity));
     }
 
     @Override
     public VeiculoDto atualizar(Long id, VeiculoDto dto) {
-        VeiculoEntity entity = veiculoRepository.findById(id)
+        Veiculo entity = veiculoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Veículo não encontrado: " + id));
         entity.setPlaca(dto.getPlaca());
         entity.setMarca(dto.getMarca());
@@ -63,7 +63,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         veiculoRepository.deleteById(id);
     }
 
-    private VeiculoDto toDto(VeiculoEntity entity) {
+    private VeiculoDto toDto(Veiculo entity) {
         return VeiculoDto.builder()
                 .id(entity.getId())
                 .placa(entity.getPlaca())
@@ -82,8 +82,8 @@ public class VeiculoServiceImpl implements VeiculoService {
                 .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado: " + clienteId));
     }
 
-    private VeiculoEntity toEntity(VeiculoDto dto, Cliente cliente) {
-        return VeiculoEntity.builder()
+    private Veiculo toEntity(VeiculoDto dto, Cliente cliente) {
+        return Veiculo.builder()
                 .placa(dto.getPlaca())
                 .marca(dto.getMarca())
                 .modelo(dto.getModelo())

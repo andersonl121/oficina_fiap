@@ -26,7 +26,7 @@ public class OrdemDeServico {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veiculo_id", nullable = false)
-    private VeiculoEntity veiculo;
+    private Veiculo veiculo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)

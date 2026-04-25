@@ -1,6 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.application;
 
-import br.com.fiap.soat15.tc_oficina.domain.VeiculoService;
+import br.com.fiap.soat15.tc_oficina.domain.service.VeiculoService;
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

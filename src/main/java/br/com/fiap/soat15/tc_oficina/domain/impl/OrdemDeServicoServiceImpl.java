@@ -10,7 +10,7 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
@@ -46,7 +46,7 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
     @Override
     @Transactional
     public OrdemDeServicoDTO criarOrdem(CriarOrdemDTO dto) {
-        VeiculoEntity veiculo = veiculoRepository.findById(dto.getVeiculoId())
+        Veiculo veiculo = veiculoRepository.findById(dto.getVeiculoId())
                 .orElseThrow(() -> new NoSuchElementException("Veículo não encontrado: " + dto.getVeiculoId()));
 
         if (!veiculo.getCliente().getId().equals(dto.getClienteId())) {
