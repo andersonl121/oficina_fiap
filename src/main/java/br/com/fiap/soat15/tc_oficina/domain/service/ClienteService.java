@@ -1,7 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
