@@ -1,6 +1,7 @@
 package br.com.fiap.soat15.tc_oficina.domain.model;
 
 import br.com.fiap.soat15.tc_oficina.domain.validator.PlacaValida;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +20,7 @@ public class VeiculoDto {
     private String marca;
     private String modelo;
     private Integer ano;
-    // private Long clienteId; // TODO: descomentar quando o CRUD de cliente estiver pronto
+
+    @NotNull(message = "clienteId é um campo obrigatório")
+    private Long clienteId;
 }

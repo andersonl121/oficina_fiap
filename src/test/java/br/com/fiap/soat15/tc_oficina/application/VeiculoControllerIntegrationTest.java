@@ -1,6 +1,8 @@
 package br.com.fiap.soat15.tc_oficina.application;
 
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-
 
 import java.util.Map;
 
@@ -34,10 +34,23 @@ class VeiculoControllerIntegrationTest {
     @Autowired
     private VeiculoRepository veiculoRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    private Cliente clienteSalvo;
+
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         veiculoRepository.deleteAll();
+        clienteRepository.deleteAll();
+
+        clienteSalvo = clienteRepository.save(Cliente.builder()
+                .nome("Cliente Teste")
+                .cpfCnpj("11144477735")
+                .email("teste@email.com")
+                .ativo(true)
+                .build());
     }
 
     @Test
@@ -68,7 +81,8 @@ class VeiculoControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placa", is("ABC1D23")))
                 .andExpect(jsonPath("$.marca", is("Toyota")))
-                .andExpect(jsonPath("$.modelo", is("Corolla")));
+                .andExpect(jsonPath("$.modelo", is("Corolla")))
+                .andExpect(jsonPath("$.clienteId", is(clienteSalvo.getId().intValue())));
     }
 
     @Test
@@ -85,7 +99,8 @@ class VeiculoControllerIntegrationTest {
                 "placa", "ABC1D23",
                 "marca", "Toyota",
                 "modelo", "Corolla",
-                "ano", 2022
+                "ano", 2022,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(post("/veiculos")
@@ -93,7 +108,8 @@ class VeiculoControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.placa", is("ABC1D23")));
+                .andExpect(jsonPath("$.placa", is("ABC1D23")))
+                .andExpect(jsonPath("$.clienteId", is(clienteSalvo.getId().intValue())));
     }
 
     @Test
@@ -103,7 +119,8 @@ class VeiculoControllerIntegrationTest {
                 "placa", "ABC-1234",
                 "marca", "Toyota",
                 "modelo", "Corolla",
-                "ano", 2022
+                "ano", 2022,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(post("/veiculos")
@@ -120,7 +137,8 @@ class VeiculoControllerIntegrationTest {
                 "placa", "INVALIDA",
                 "marca", "Toyota",
                 "modelo", "Corolla",
-                "ano", 2022
+                "ano", 2022,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(post("/veiculos")
@@ -136,7 +154,8 @@ class VeiculoControllerIntegrationTest {
                 "placa", "",
                 "marca", "Toyota",
                 "modelo", "Corolla",
-                "ano", 2022
+                "ano", 2022,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(post("/veiculos")
@@ -154,13 +173,31 @@ class VeiculoControllerIntegrationTest {
                 "placa", "ABC1D23",
                 "marca", "Honda",
                 "modelo", "Civic",
-                "ano", 2023
+                "ano", 2023,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(post("/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("POST /veiculos - deve retornar 404 com cliente inexistente")
+    void deveRetornarErroComClienteInexistente() throws Exception {
+        Map<String, Object> body = Map.of(
+                "placa", "ABC1D23",
+                "marca", "Toyota",
+                "modelo", "Corolla",
+                "ano", 2022,
+                "clienteId", 9999L
+        );
+
+        mockMvc.perform(post("/veiculos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -172,7 +209,8 @@ class VeiculoControllerIntegrationTest {
                 "placa", "XYZ9W87",
                 "marca", "Honda",
                 "modelo", "Civic",
-                "ano", 2023
+                "ano", 2023,
+                "clienteId", clienteSalvo.getId()
         );
 
         mockMvc.perform(put("/veiculos/{id}", saved.getId())
@@ -180,7 +218,8 @@ class VeiculoControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.marca", is("Honda")))
-                .andExpect(jsonPath("$.placa", is("XYZ9W87")));
+                .andExpect(jsonPath("$.placa", is("XYZ9W87")))
+                .andExpect(jsonPath("$.clienteId", is(clienteSalvo.getId().intValue())));
     }
 
     @Test
@@ -205,6 +244,7 @@ class VeiculoControllerIntegrationTest {
                 .marca("Toyota")
                 .modelo("Corolla")
                 .ano(2022)
+                .cliente(clienteSalvo)
                 .build();
     }
 }

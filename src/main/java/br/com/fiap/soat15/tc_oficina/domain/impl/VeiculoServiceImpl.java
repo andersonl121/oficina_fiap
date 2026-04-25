@@ -2,7 +2,9 @@ package br.com.fiap.soat15.tc_oficina.domain.impl;
 
 import br.com.fiap.soat15.tc_oficina.domain.VeiculoService;
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.NoSuchElementException;
 public class VeiculoServiceImpl implements VeiculoService {
 
     private final VeiculoRepository veiculoRepository;
+    private final ClienteRepository clienteRepository;
 
     @Override
     public List<VeiculoDto> listarVeiculos() {
@@ -35,7 +38,8 @@ public class VeiculoServiceImpl implements VeiculoService {
         if (veiculoRepository.existsByPlaca(dto.getPlaca())) {
             throw new IllegalArgumentException("Já existe um veículo com a placa: " + dto.getPlaca());
         }
-        VeiculoEntity entity = toEntity(dto);
+        Cliente cliente = buscarCliente(dto.getClienteId());
+        VeiculoEntity entity = toEntity(dto, cliente);
         return toDto(veiculoRepository.save(entity));
     }
 
@@ -47,6 +51,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         entity.setMarca(dto.getMarca());
         entity.setModelo(dto.getModelo());
         entity.setAno(dto.getAno());
+        entity.setCliente(buscarCliente(dto.getClienteId()));
         return toDto(veiculoRepository.save(entity));
     }
 
@@ -65,16 +70,25 @@ public class VeiculoServiceImpl implements VeiculoService {
                 .marca(entity.getMarca())
                 .modelo(entity.getModelo())
                 .ano(entity.getAno())
-                // .clienteId(entity.getCliente().getId()) // TODO: descomentar quando cliente estiver pronto
+                .clienteId(entity.getCliente().getId())
                 .build();
     }
 
-    private VeiculoEntity toEntity(VeiculoDto dto) {
+    private Cliente buscarCliente(Long clienteId) {
+        if (clienteId == null) {
+            throw new IllegalArgumentException("clienteId é obrigatório");
+        }
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado: " + clienteId));
+    }
+
+    private VeiculoEntity toEntity(VeiculoDto dto, Cliente cliente) {
         return VeiculoEntity.builder()
                 .placa(dto.getPlaca())
                 .marca(dto.getMarca())
                 .modelo(dto.getModelo())
                 .ano(dto.getAno())
+                .cliente(cliente)
                 .build();
     }
 }

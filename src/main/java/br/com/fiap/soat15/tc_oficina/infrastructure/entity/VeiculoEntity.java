@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "veiculos")
+@Table(name = "TB_VEICULOS")
 @Getter
 @Setter
 @Builder
@@ -28,8 +28,7 @@ public class VeiculoEntity {
     @Column(nullable = false)
     private Integer ano;
 
-    // TODO: descomentar quando o CRUD de cliente estiver pronto
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "cliente_id", nullable = false)
-    // private ClienteEntity cliente;
+     @ManyToOne(fetch = FetchType.LAZY)
+     @JoinColumn(name = "cliente_id", nullable = false)
+     private Cliente cliente;
 }

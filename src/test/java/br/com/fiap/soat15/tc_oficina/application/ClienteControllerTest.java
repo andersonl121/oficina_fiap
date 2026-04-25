@@ -50,7 +50,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .build();
 
@@ -59,7 +59,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -74,7 +74,7 @@ public class ClienteControllerTest {
                 .andExpect(jsonPath("$.nome").value("João Silva"))
                 .andExpect(jsonPath("$.cpfCnpj").value("12345678901"))
                 .andExpect(jsonPath("$.email").value("joao@example.com"))
-                .andExpect(jsonPath("$.telefone").value("11999999999"))
+                .andExpect(jsonPath("$.telefone").value("999999999"))
                 .andExpect(jsonPath("$.endereco").value("Rua A, 123"))
                 .andExpect(jsonPath("$.ativo").value(true));
 
@@ -108,7 +108,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -124,12 +124,12 @@ public class ClienteControllerTest {
     }
 
     @Test
-    void obterClientePorId_ComIdInexistente_DeveRetornarNotFound() throws Exception {
+    void obterClientePorId_ComIdInexistente_DeveRetornarBadRequest() throws Exception {
         when(clienteService.obterClientePorId(999L)).thenReturn(null);
 
         mockMvc.perform(get("/api/v1/cliente/999"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Cliente com ID 999 não encontrado"));
 
         verify(clienteService, times(1)).obterClientePorId(999L);
@@ -142,7 +142,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -157,12 +157,12 @@ public class ClienteControllerTest {
     }
 
     @Test
-    void obterClientePorCpfCnpj_ComCpfInexistente_DeveRetornarNotFound() throws Exception {
+    void obterClientePorCpfCnpj_ComCpfInexistente_DeveRetornarBadRequest() throws Exception {
         when(clienteService.obterClientePorCpfCnpj("99999999999")).thenReturn(null);
 
         mockMvc.perform(get("/api/v1/cliente/cpfcnpj/99999999999"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Cliente com CPF/CNPJ 99999999999 não encontrado"));
 
         verify(clienteService, times(1)).obterClientePorCpfCnpj("99999999999");
@@ -175,7 +175,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -185,7 +185,7 @@ public class ClienteControllerTest {
                 .nome("Maria Oliveira")
                 .cpfCnpj("98765432100")
                 .email("maria@example.com")
-                .telefone("11888888888")
+                .telefone("888888888")
                 .endereco("Rua B, 456")
                 .ativo(true)
                 .build();
@@ -208,7 +208,7 @@ public class ClienteControllerTest {
                 .nome("João Silva Atualizado")
                 .cpfCnpj("12345678901")
                 .email("joao.atualizado@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123 Atualizado")
                 .build();
 
@@ -217,7 +217,7 @@ public class ClienteControllerTest {
                 .nome("João Silva Atualizado")
                 .cpfCnpj("12345678901")
                 .email("joao.atualizado@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123 Atualizado")
                 .ativo(true)
                 .build();
@@ -237,12 +237,12 @@ public class ClienteControllerTest {
     }
 
     @Test
-    void atualizarCliente_ComIdInexistente_DeveRetornarNotFound() throws Exception {
+    void atualizarCliente_ComIdInexistente_DeveRetornarBadRequest() throws Exception {
         ClienteDTO dto = ClienteDTO.builder()
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .build();
 
@@ -251,8 +251,8 @@ public class ClienteControllerTest {
         mockMvc.perform(put("/api/v1/cliente/999")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Cliente com ID 999 não encontrado"));
 
         verify(clienteService, never()).atualizarCliente(any(), any());
@@ -265,7 +265,7 @@ public class ClienteControllerTest {
                 .nome("João Silva")
                 .cpfCnpj("12345678901")
                 .email("joao@example.com")
-                .telefone("11999999999")
+                .telefone("999999999")
                 .endereco("Rua A, 123")
                 .ativo(true)
                 .build();
@@ -280,12 +280,12 @@ public class ClienteControllerTest {
     }
 
     @Test
-    void deletarCliente_ComIdInexistente_DeveRetornarNotFound() throws Exception {
+    void deletarCliente_ComIdInexistente_DeveRetornarBadRequest() throws Exception {
         when(clienteService.obterClientePorId(999L)).thenReturn(null);
 
         mockMvc.perform(delete("/api/v1/cliente/999"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.message").value("Cliente com ID 999 não encontrado"));
 
         verify(clienteService, never()).deletarCliente(any());

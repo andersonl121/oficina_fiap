@@ -2,7 +2,9 @@ package br.com.fiap.soat15.tc_oficina.domain;
 
 import br.com.fiap.soat15.tc_oficina.domain.impl.VeiculoServiceImpl;
 import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.VeiculoEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,28 +28,45 @@ class VeiculoServiceImplTest {
     @Mock
     private VeiculoRepository veiculoRepository;
 
+    @Mock
+    private ClienteRepository clienteRepository;
+
     @InjectMocks
     private VeiculoServiceImpl veiculoService;
 
     private Long id;
+    private Long clienteId;
+    private Cliente cliente;
     private VeiculoEntity entity;
     private VeiculoDto dto;
 
     @BeforeEach
     void setUp() {
         id = 1L;
+        clienteId = 2L;
+
+        cliente = Cliente.builder()
+                .id(clienteId)
+                .nome("João da Silva")
+                .cpfCnpj("11144477735")
+                .ativo(true)
+                .build();
+
         entity = VeiculoEntity.builder()
                 .id(id)
                 .placa("ABC1D23")
                 .marca("Toyota")
                 .modelo("Corolla")
                 .ano(2022)
+                .cliente(cliente)
                 .build();
+
         dto = VeiculoDto.builder()
                 .placa("ABC1D23")
                 .marca("Toyota")
                 .modelo("Corolla")
                 .ano(2022)
+                .clienteId(clienteId)
                 .build();
     }
 
@@ -60,6 +79,7 @@ class VeiculoServiceImplTest {
 
         assertThat(resultado).hasSize(1);
         assertThat(resultado.get(0).getPlaca()).isEqualTo("ABC1D23");
+        assertThat(resultado.get(0).getClienteId()).isEqualTo(clienteId);
         verify(veiculoRepository).findAll();
     }
 
@@ -82,6 +102,7 @@ class VeiculoServiceImplTest {
 
         assertThat(resultado.getId()).isEqualTo(id);
         assertThat(resultado.getPlaca()).isEqualTo("ABC1D23");
+        assertThat(resultado.getClienteId()).isEqualTo(clienteId);
     }
 
     @Test
@@ -98,11 +119,14 @@ class VeiculoServiceImplTest {
     @DisplayName("Deve criar veículo com sucesso")
     void deveCriarVeiculoComSucesso() {
         when(veiculoRepository.existsByPlaca(dto.getPlaca())).thenReturn(false);
+        when(clienteRepository.findById(clienteId)).thenReturn(Optional.of(cliente));
         when(veiculoRepository.save(any(VeiculoEntity.class))).thenReturn(entity);
 
         VeiculoDto resultado = veiculoService.criar(dto);
 
         assertThat(resultado.getPlaca()).isEqualTo("ABC1D23");
+        assertThat(resultado.getClienteId()).isEqualTo(clienteId);
+        verify(clienteRepository).findById(clienteId);
         verify(veiculoRepository).save(any(VeiculoEntity.class));
     }
 
@@ -116,6 +140,38 @@ class VeiculoServiceImplTest {
                 .hasMessageContaining("ABC1D23");
 
         verify(veiculoRepository, never()).save(any());
+        verify(clienteRepository, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao criar veículo com cliente inexistente")
+    void deveLancarExcecaoAoCriarVeiculoComClienteInexistente() {
+        when(veiculoRepository.existsByPlaca(dto.getPlaca())).thenReturn(false);
+        when(clienteRepository.findById(clienteId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> veiculoService.criar(dto))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(clienteId.toString());
+
+        verify(veiculoRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao criar veículo sem clienteId")
+    void deveLancarExcecaoAoCriarVeiculoSemClienteId() {
+        VeiculoDto dtoSemCliente = VeiculoDto.builder()
+                .placa("ABC1D23")
+                .marca("Toyota")
+                .modelo("Corolla")
+                .ano(2022)
+                .build();
+        when(veiculoRepository.existsByPlaca(dtoSemCliente.getPlaca())).thenReturn(false);
+
+        assertThatThrownBy(() -> veiculoService.criar(dtoSemCliente))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("clienteId é obrigatório");
+
+        verify(veiculoRepository, never()).save(any());
     }
 
     @Test
@@ -126,18 +182,22 @@ class VeiculoServiceImplTest {
                 .marca("Honda")
                 .modelo("Civic")
                 .ano(2023)
+                .clienteId(clienteId)
                 .build();
 
         VeiculoEntity entityAtualizada = VeiculoEntity.builder()
-                .id(id).placa("XYZ9W87").marca("Honda").modelo("Civic").ano(2023).build();
+                .id(id).placa("XYZ9W87").marca("Honda").modelo("Civic").ano(2023).cliente(cliente).build();
 
         when(veiculoRepository.findById(id)).thenReturn(Optional.of(entity));
+        when(clienteRepository.findById(clienteId)).thenReturn(Optional.of(cliente));
         when(veiculoRepository.save(any(VeiculoEntity.class))).thenReturn(entityAtualizada);
 
         VeiculoDto resultado = veiculoService.atualizar(id, dtoAtualizado);
 
         assertThat(resultado.getMarca()).isEqualTo("Honda");
         assertThat(resultado.getModelo()).isEqualTo("Civic");
+        assertThat(resultado.getClienteId()).isEqualTo(clienteId);
+        verify(clienteRepository).findById(clienteId);
     }
 
     @Test
@@ -147,6 +207,17 @@ class VeiculoServiceImplTest {
 
         assertThatThrownBy(() -> veiculoService.atualizar(id, dto))
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao atualizar veículo com cliente inexistente")
+    void deveLancarExcecaoAoAtualizarComClienteInexistente() {
+        when(veiculoRepository.findById(id)).thenReturn(Optional.of(entity));
+        when(clienteRepository.findById(clienteId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> veiculoService.atualizar(id, dto))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(clienteId.toString());
     }
 
     @Test

@@ -27,8 +27,8 @@ public class DocumentoValidator {
     private boolean isCpfValido(String cpf) {
         if (cpf.chars().distinct().count() == 1) return false;
 
-        int d1 = calcularDigitoCpf(cpf, 9);
-        int d2 = calcularDigitoCpf(cpf, 10);
+        int d1 = calcularDigitoCpf(cpf, 10);
+        int d2 = calcularDigitoCpf(cpf, 11);
 
         return cpf.equals(cpf.substring(0, 9) + d1 + d2);
     }
