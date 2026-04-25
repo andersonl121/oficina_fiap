@@ -1,0 +1,34 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/impl/OrdemDeServicoServiceImpl.java
+  h_b624c3f5450253 13,49
+src/main/java/br/com/fiap/soat15/tc_oficina/application/VeiculoController.java
+  h_b624c3f5450253 3
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/impl/VeiculoServiceImpl.java
+  h_b624c3f5450253 3,6,42,48,66,85-86
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/entity/OrdemDeServico.java
+  h_b624c3f5450253 29
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/repository/VeiculoRepository.java
+  h_b624c3f5450253 3,10,12
+src/test/java/br/com/fiap/soat15/tc_oficina/application/VeiculoControllerIntegrationTest.java
+  h_b624c3f5450253 4,78,206,228,241-242
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/VeiculoServiceImplTest.java
+  h_b624c3f5450253 6,40,55,123,130,188,193
+src/test/java/br/com/fiap/soat15/tc_oficina/application/OrdemDeServicoControllerIntegrationTest.java
+  h_b624c3f5450253 7,47,61
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/OrdemDeServicoServiceImplTest.java
+  h_b624c3f5450253 13,55,64,122
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/VeiculoService.java
+  h_b624c3f5450253 1-17
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/entity/Veiculo.java
+  h_b624c3f5450253 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "f7e21e68d644c9b17d06d7a1bd24978d75fceed9",
+  "prompts": {},
+  "humans": {
+    "h_b624c3f5450253": {
+      "author": "Guilherme Menoci Pessoal"
+    }
+  }
+}
