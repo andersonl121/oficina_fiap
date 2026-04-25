@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -83,7 +84,7 @@ class ClienteServiceImplTest {
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.obterClientePorId(id))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("não encontrado");
     }
 
@@ -138,7 +139,7 @@ class ClienteServiceImplTest {
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.atualizarCliente(id, cliente))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("não encontrado");
     }
 
@@ -159,7 +160,7 @@ class ClienteServiceImplTest {
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> clienteService.deletarCliente(id))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("não encontrado");
 
         verify(clienteRepository, never()).save(any());
