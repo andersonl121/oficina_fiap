@@ -42,4 +42,19 @@ public class ItemEstoque {
         return new ItemEstoqueDTO(this);
     }
 
+    public void reduzirEstoque(int quantidade) {
+        if (quantidade > quantidadeEstoque) {
+            throw new IllegalArgumentException("Estoque insuficiente para o item: " + nome);
+        }
+        this.quantidadeEstoque -= quantidade;
+    }
+
+    public void aumentarEstoque(int quantidade) {
+        this.quantidadeEstoque += quantidade;
+    }
+
+    public BigDecimal calcularCustoTotal(int quantidade) {
+        return precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+    }
+
 }

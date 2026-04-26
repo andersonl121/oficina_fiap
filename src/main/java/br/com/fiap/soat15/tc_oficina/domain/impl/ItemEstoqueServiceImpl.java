@@ -9,6 +9,7 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -70,6 +71,29 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
     public List<ItemEstoqueDTO> listarTodosItems() {
         List<ItemEstoque> itemEstoque = itemEstoqueRepository.findAllByAtivo(true);
         return itemEstoque.stream().map(ItemEstoque::convertToDTO).toList();
+    }
+
+    @Override
+    public ItemEstoqueDTO aumentarEstoque(Long id, int quantidade) {
+        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        itemEstoque.aumentarEstoque(quantidade);
+
+        return itemEstoqueRepository.save(itemEstoque).convertToDTO();
+    }
+
+    @Override
+    public ItemEstoqueDTO diminuirEstoque(Long id, int quantidade) {
+        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        itemEstoque.reduzirEstoque(quantidade);
+
+        return itemEstoqueRepository.save(itemEstoque).convertToDTO();
+    }
+
+    @Override
+    public BigDecimal calculartotal(Long id, int quantidade) {
+        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        
+        return itemEstoque.calcularCustoTotal(quantidade);
     }
 
     @Override
