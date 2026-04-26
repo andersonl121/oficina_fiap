@@ -48,5 +48,6 @@ public class ItemEstoqueDTO {
         this.ativo = itemEstoque.getAtivo();
     }
 
+
 }
 
