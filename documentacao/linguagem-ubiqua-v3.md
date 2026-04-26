@@ -225,7 +225,7 @@ Contém: ordem_id, servico_id, data_conclusao
 
 #### EstoqueAtualizado
 Disparado quando: Peça é utilizada
-Contém: peca_id, quantidade_anterior, quantidade_nova
+Contém: item_estoque_id, quantidade_anterior, quantidade_nova
 
 ---
 

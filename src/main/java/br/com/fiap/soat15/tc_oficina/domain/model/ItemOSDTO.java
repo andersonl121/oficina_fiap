@@ -13,10 +13,11 @@ public class ItemOSDTO {
 
     private Long id;
     private Long servicoId;
+    private Long itemEstoqueId;
+    private String itemEstoqueNome;
     private String servicoNome;
     private Integer quantidade;
     private BigDecimal precoUnitario;
     private BigDecimal subtotal;
-
     // TODO (Peças): adicionar pecaId e pecaNome quando módulo de Peças estiver pronto
 }

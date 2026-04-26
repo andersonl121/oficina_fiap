@@ -26,10 +26,9 @@ public class ItemOS {
     @JoinColumn(name = "servico_id", nullable = false)
     private Servico servico;
 
-    // TODO (Peças): adicionar campo peca (@ManyToOne, nullable) quando peças estiver pronto
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "peca_id")
-    // private Peca peca;
+     @ManyToOne(fetch = FetchType.LAZY)
+     @JoinColumn(name = "item_estoque_id", nullable = false)
+     private ItemEstoque itemEstoque;
 
     @Column(nullable = false)
     private Integer quantidade;
