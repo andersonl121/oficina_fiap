@@ -1,10 +1,7 @@
 package br.com.fiap.soat15.tc_oficina.domain;
 
 import br.com.fiap.soat15.tc_oficina.domain.impl.OrdemDeServicoServiceImpl;
-import br.com.fiap.soat15.tc_oficina.domain.model.AdicionarItemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.AvancarStatusDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.CriarOrdemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.OrdemDeServicoDTO;
+import br.com.fiap.soat15.tc_oficina.domain.model.*;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
@@ -26,15 +23,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -444,5 +441,114 @@ class OrdemDeServicoServiceImplTest {
         assertThatThrownBy(() -> ordemService.removerItem(10L, 1L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("EM_EXECUCAO");
+    }
+
+    @Test
+    @DisplayName("Deve calcular tempo médio de execução do serviço corretamente")
+    void deveCalcularTempoMedioCorretamente() {
+        LocalDate dataInicial = LocalDate.of(2026, 4, 1);
+        LocalDate dataFinal = LocalDate.of(2026, 4, 2);
+
+        OrdemDeServico os1 = OrdemDeServico.builder()
+                .dataInicioExecucao(LocalDateTime.of(2026, 4, 1, 10, 0))
+                .dataFechamento(LocalDateTime.of(2026, 4, 1, 12, 0)) // 2h
+                .status(StatusOS.CONCLUIDA)
+                .build();
+
+        OrdemDeServico os2 = OrdemDeServico.builder()
+                .dataInicioExecucao(LocalDateTime.of(2026, 4, 1, 13, 0))
+                .dataFechamento(LocalDateTime.of(2026, 4, 1, 16, 0)) // 3h
+                .status(StatusOS.CONCLUIDA)
+                .build();
+
+        when(ordemRepository.findByDataExecucaoBetweenAndStatusEquals(any(), any(), eq(StatusOS.CONCLUIDA)))
+                .thenReturn(List.of(os1, os2));
+
+        TempoExecucaoDTO result = ordemService.listarTempoMedioPorPeriodo(dataInicial, dataFinal);
+
+        assertEquals(2, result.getQuantidadeOrdens());
+        assertEquals(new BigDecimal("2"), result.getTempoMedio()); // (2 + 3) / 2 = 2.5 → HALF_DOWN = 2
+    }
+
+    @Test
+    @DisplayName("Deve calcular tempo médio de execução do serviço corretamente quando data final não for informada")
+    void deveUsarDataInicialQuandoDataFinalForNull() {
+        LocalDate dataInicial = LocalDate.of(2026, 4, 1);
+
+        OrdemDeServico os1 = OrdemDeServico.builder()
+                .dataInicioExecucao(LocalDateTime.of(2026, 4, 1, 10, 0))
+                .dataFechamento(LocalDateTime.of(2026, 4, 1, 12, 0)) // 2h
+                .status(StatusOS.CONCLUIDA)
+                .build();
+
+        OrdemDeServico os2 = OrdemDeServico.builder()
+                .dataInicioExecucao(LocalDateTime.of(2026, 4, 1, 13, 0))
+                .dataFechamento(LocalDateTime.of(2026, 4, 1, 16, 0)) // 3h
+                .status(StatusOS.CONCLUIDA)
+                .build();
+
+        when(ordemRepository.findByDataExecucaoBetweenAndStatusEquals(any(), any(), eq(StatusOS.CONCLUIDA)))
+                .thenReturn(List.of(os1, os2));
+
+        TempoExecucaoDTO result = ordemService.listarTempoMedioPorPeriodo(dataInicial, null);
+
+        assertEquals(2, result.getQuantidadeOrdens());
+        assertEquals(new BigDecimal("2"), result.getTempoMedio()); // (2 + 3) / 2 = 2.5 → HALF_DOWN = 2
+
+        verify(ordemRepository).findByDataExecucaoBetweenAndStatusEquals(
+                eq(dataInicial.atStartOfDay()),
+                eq(dataInicial.plusDays(1).atStartOfDay()),
+                eq(StatusOS.CONCLUIDA)
+        );
+    }
+
+    @Test
+    @DisplayName("Deve calcular tempo médio de execução do serviço corretamente quando filtrado apenas uma ordem")
+    void deveCalcularComUmaOrdem() {
+        LocalDate data = LocalDate.of(2026, 4, 1);
+
+        OrdemDeServico os = OrdemDeServico.builder()
+                .dataInicioExecucao(LocalDateTime.of(2026, 4, 1, 10, 0))
+                .dataFechamento(LocalDateTime.of(2026, 4, 1, 13, 0)) // 3h
+                .status(StatusOS.CONCLUIDA)
+                .build();
+
+        when(ordemRepository.findByDataExecucaoBetweenAndStatusEquals(any(), any(), any()))
+                .thenReturn(List.of(os));
+
+        TempoExecucaoDTO result = ordemService.listarTempoMedioPorPeriodo(data, data);
+
+        assertEquals(1, result.getQuantidadeOrdens());
+        assertEquals(new BigDecimal("3"), result.getTempoMedio());
+    }
+
+    @Test
+    @DisplayName("Deve calcular tempo médio de execução do serviço zerado quando registros não encontrados (lista vazia)")
+    void deveRetornarZeroQuandoListaVazia() {
+        LocalDate data = LocalDate.of(2026, 4, 1);
+
+        when(ordemRepository.findByDataExecucaoBetweenAndStatusEquals(any(), any(), any()))
+                .thenReturn(Collections.emptyList());
+
+        TempoExecucaoDTO result = ordemService.listarTempoMedioPorPeriodo(data, data);
+
+        assertNotNull(result);
+        assertEquals(0, result.getQuantidadeOrdens());
+        assertEquals(BigDecimal.ZERO, result.getTempoMedio());
+    }
+
+    @Test
+    @DisplayName("Deve calcular tempo médio de execução do serviço zerado quando registros não encontrados (lista nula)")
+    void deveRetornarZeroQuandoListaNull() {
+        LocalDate data = LocalDate.of(2026, 4, 1);
+
+        when(ordemRepository.findByDataExecucaoBetweenAndStatusEquals(any(), any(), any()))
+                .thenReturn(null);
+
+        TempoExecucaoDTO result = ordemService.listarTempoMedioPorPeriodo(data, data);
+
+        assertNotNull(result);
+        assertEquals(0, result.getQuantidadeOrdens());
+        assertEquals(BigDecimal.ZERO, result.getTempoMedio());
     }
 }

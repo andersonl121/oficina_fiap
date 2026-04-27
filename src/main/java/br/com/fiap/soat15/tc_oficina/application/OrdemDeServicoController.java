@@ -1,26 +1,27 @@
 package br.com.fiap.soat15.tc_oficina.application;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.AdicionarItemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.AvancarStatusDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.CriarOrdemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.OrdemDeServicoDTO;
+import br.com.fiap.soat15.tc_oficina.domain.model.*;
 import br.com.fiap.soat15.tc_oficina.domain.service.OrdemDeServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ordens")
 @RequiredArgsConstructor
 @Tag(name = "Ordens de Serviço", description = "Gestão do ciclo de vida das ordens de serviço")
+@Validated
 public class OrdemDeServicoController {
 
     private final OrdemDeServicoService ordemService;
@@ -100,5 +101,17 @@ public class OrdemDeServicoController {
             @PathVariable Long id,
             @PathVariable Long itemId) {
         return ResponseEntity.ok(ordemService.removerItem(id, itemId));
+    }
+
+    @GetMapping("/tempo/{startDate}/{endDate}")
+    @Operation(summary = "Listar tempo médio de execução de serviço em um período")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Tempo médio de execução retornado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Sem Ordens executadas no período")
+    })
+    public ResponseEntity<TempoExecucaoDTO> listarTempoMedioPorPeriodo(
+            @PathVariable @NotNull(message = "Data Inicial deve ser informada") LocalDate dataInicial,
+            @PathVariable  LocalDate dataFinal) {
+        return ResponseEntity.ok(ordemService.listarTempoMedioPorPeriodo(dataInicial, dataFinal));
     }
 }

@@ -1,10 +1,8 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.AdicionarItemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.AvancarStatusDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.CriarOrdemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.OrdemDeServicoDTO;
+import br.com.fiap.soat15.tc_oficina.domain.model.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrdemDeServicoService {
@@ -16,6 +14,8 @@ public interface OrdemDeServicoService {
     List<OrdemDeServicoDTO> listarOrdens();
 
     List<OrdemDeServicoDTO> listarOrdensPorCliente(Long clienteId);
+
+    TempoExecucaoDTO listarTempoMedioPorPeriodo(LocalDate dataInicial, LocalDate dataFinal);
 
     OrdemDeServicoDTO avancarStatus(Long id, AvancarStatusDTO dto);
 
