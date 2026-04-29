@@ -36,7 +36,7 @@ public class ItemEstoqueController {
     public ResponseEntity<ItemEstoqueDTO> adicionarItem(@Valid @RequestBody ItemEstoqueDTO dto) {
         try {
             dto.setNome(StringUtils.removerAcentos(dto.getNome()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(itemEstoqueService.adicionarItem(dto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(itemEstoqueService.criarItem(dto));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }

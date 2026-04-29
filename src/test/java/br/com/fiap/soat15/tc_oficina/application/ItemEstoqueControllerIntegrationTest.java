@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-class ItemEstoqueControllerTest {
+class ItemEstoqueControllerIntegrationTest {
 
     private MockMvc mockMvc;
 
@@ -52,7 +52,7 @@ class ItemEstoqueControllerTest {
         ItemEstoqueDTO dto = criarDTO();
         dto.setId(1L);
 
-        when(itemEstoqueService.adicionarItem(any())).thenReturn(dto);
+        when(itemEstoqueService.criarItem(any())).thenReturn(dto);
 
         mockMvc.perform(post("/api/v1/item-estoque")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ class ItemEstoqueControllerTest {
                 .andExpect(jsonPath("$.message").value("Erro de validação nos campos fornecidos"))
                 .andExpect(jsonPath("$.validationErrors").exists());
 
-        verify(itemEstoqueService, never()).adicionarItem(any());
+        verify(itemEstoqueService, never()).criarItem(any());
     }
 
 

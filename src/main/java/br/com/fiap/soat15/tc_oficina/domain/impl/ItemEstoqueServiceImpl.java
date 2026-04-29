@@ -4,7 +4,6 @@ import br.com.fiap.soat15.tc_oficina.domain.model.ItemEstoqueDTO;
 import br.com.fiap.soat15.tc_oficina.domain.service.ItemEstoqueService;
 import br.com.fiap.soat15.tc_oficina.domain.validator.StringUtils;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
-import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
 
 
     @Override
-    public ItemEstoqueDTO adicionarItem(ItemEstoqueDTO dto) {
+    public ItemEstoqueDTO criarItem(ItemEstoqueDTO dto) {
         if (itemEstoqueRepository.findByNomeAndAtivo(dto.getNome(), true).isPresent()) {
             throw new IllegalArgumentException("Item já cadastrado");
         }

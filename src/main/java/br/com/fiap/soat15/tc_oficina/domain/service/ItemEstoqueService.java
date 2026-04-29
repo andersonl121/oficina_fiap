@@ -8,14 +8,22 @@ import java.util.List;
 
 public interface ItemEstoqueService {
 
-    ItemEstoqueDTO adicionarItem(ItemEstoqueDTO itemEstoque);
+    ItemEstoqueDTO criarItem(ItemEstoqueDTO itemEstoque);
+
     ItemEstoque atualizarItem(Long id, ItemEstoqueDTO itemAtualizado);
+
     void deletarItem(ItemEstoque itemEstoque);
+
     ItemEstoque consultarItemPorId(Long id);
+
     List<ItemEstoqueDTO> consultarItemPorNome(String nomeItem);
+
     List<ItemEstoqueDTO> listarTodosItems();
+
     ItemEstoqueDTO aumentarEstoque(Long id, int quantidade);
+
     ItemEstoqueDTO diminuirEstoque(Long id, int quantidade);
+
     BigDecimal calculartotal(Long id, int quantidade);
 
 }
