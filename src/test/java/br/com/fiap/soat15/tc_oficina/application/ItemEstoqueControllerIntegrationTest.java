@@ -194,6 +194,7 @@ class ItemEstoqueControllerTest {
 
     @Test
     void deveDeletarItem() throws Exception {
+        when(itemEstoqueService.consultarItemPorId(1L)).thenReturn(criarItem());
         mockMvc.perform(delete("/api/v1/item-estoque/1"))
                 .andExpect(status().isNoContent());
     }
