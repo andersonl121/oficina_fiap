@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -60,9 +61,9 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
 
     @Override
     public List<ItemEstoqueDTO> consultarItemPorNome(String nomeItem) {
-            List<ItemEstoque> itemEstoque = itemEstoqueRepository.findByAtivoAndNomeLike(StringUtils.removerAcentos(nomeItem));
-        if (itemEstoque.isEmpty()) {
-            throw new BusinessException("Não foram encontrados itens com o nome: " + nomeItem);
+        List<ItemEstoque> itemEstoque = itemEstoqueRepository.findByAtivoAndNomeLike(StringUtils.removerAcentos(nomeItem));
+        if (itemEstoque == null || itemEstoque.isEmpty()) {
+            return new ArrayList<>();
         }
         return itemEstoque.stream().map(ItemEstoque::convertToDTO).toList();
     }
@@ -92,15 +93,14 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
     @Override
     public BigDecimal calculartotal(Long id, int quantidade) {
         ItemEstoque itemEstoque = this.consultarItemPorId(id);
-        
+
         return itemEstoque.calcularCustoTotal(quantidade);
     }
 
     @Override
-    public void deletarItem(Long id) {
-        ItemEstoque itemEstoque = itemEstoqueRepository.findByIdAndAtivo(id, true)
-                .orElseThrow(() -> new NoSuchElementException("Item não encontrado"));
+    public void deletarItem(ItemEstoque itemEstoque) {
         itemEstoque.setAtivo(false);
         itemEstoqueRepository.save(itemEstoque);
     }
 }
+

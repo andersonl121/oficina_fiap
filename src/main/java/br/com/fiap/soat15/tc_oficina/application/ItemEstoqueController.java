@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/item-estoque")
@@ -68,7 +69,14 @@ public class ItemEstoqueController {
     })
     public ResponseEntity<List<ItemEstoqueDTO>> obterItemPorNome(@PathVariable String nome) {
         try {
-            return ResponseEntity.ok(itemEstoqueService.consultarItemPorNome(nome));
+
+            List<ItemEstoqueDTO> items = itemEstoqueService.consultarItemPorNome(nome);
+
+            if (items.isEmpty())
+                throw new BusinessException("Não foram encontrados itens com o nome: " + nome);
+
+            return ResponseEntity.ok(items);
+
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
@@ -92,7 +100,7 @@ public class ItemEstoqueController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Erro de validação"),
-            @ApiResponse(responseCode = "404", description = "Item não encontrado")
+            @ApiResponse(responseCode = "400", description = "Item não encontrado")
     })
     public ResponseEntity<ItemEstoqueDTO> atualizarItemEstoque(@PathVariable Long id,
                                                                @Valid @RequestBody ItemEstoqueDTO dto)
@@ -100,7 +108,7 @@ public class ItemEstoqueController {
         try {
             ItemEstoque ItemExistente = itemEstoqueService.consultarItemPorId(id);
             if (ItemExistente == null) {
-                throw new BusinessException("Item com ID " + id + " não encontrado");
+                throw new NoSuchElementException("Item com ID " + id + " não encontrado");
             }
 
             return ResponseEntity.ok(itemEstoqueService.atualizarItem(id, dto).convertToDTO());
@@ -113,11 +121,15 @@ public class ItemEstoqueController {
     @Operation(summary = "Deletar Item do estoque")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item deletado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Item não encontrado")
+            @ApiResponse(responseCode = "400", description = "Item não encontrado")
     })
     public ResponseEntity<Void> deletarItem(@PathVariable Long id) {
         try {
-            itemEstoqueService.deletarItem(id);
+            ItemEstoque itemEstoque = itemEstoqueService.consultarItemPorId(id);
+            if(itemEstoque == null)
+                throw new NoSuchElementException("Item não encontrado");
+
+            itemEstoqueService.deletarItem(itemEstoque);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());

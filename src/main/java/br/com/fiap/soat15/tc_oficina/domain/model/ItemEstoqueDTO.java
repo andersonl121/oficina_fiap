@@ -23,7 +23,7 @@ public class ItemEstoqueDTO {
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
-    @Size(max = 100, message = "Descrição deve conter no máximo 300 caracteres")
+    @Size(max = 300, message = "Descrição deve conter no máximo 300 caracteres")
     private String descricao;
 
     @Positive(message = "Quantidade deve ser positiva")
