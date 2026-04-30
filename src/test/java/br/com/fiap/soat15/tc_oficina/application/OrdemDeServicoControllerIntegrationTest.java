@@ -181,6 +181,27 @@ class OrdemDeServicoControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("PATCH /api/v1/ordens/{id}/status - deve avançar até ENTREGUE completando o fluxo")
+    void deveAvancarAteEntregue() throws Exception {
+        OrdemDeServico ordem = criarOrdemNoBanco();
+
+        avancarStatusBanco(ordem.getId(), "EM_DIAGNOSTICO");
+        avancarStatusBanco(ordem.getId(), "AGUARDANDO_APROVACAO");
+        avancarStatusBanco(ordem.getId(), "APROVADA");
+        avancarStatusBanco(ordem.getId(), "EM_EXECUCAO");
+        avancarStatusBanco(ordem.getId(), "CONCLUIDA");
+
+        Map<String, Object> body = Map.of("novoStatus", "ENTREGUE");
+
+        mockMvc.perform(patch("/api/v1/ordens/{id}/status", ordem.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status", is("ENTREGUE")))
+                .andExpect(jsonPath("$.dataFechamento", notNullValue()));
+    }
+
+    @Test
     @DisplayName("PATCH /api/v1/ordens/{id}/status - deve retornar 400 para transição inválida")
     void deveRetornar400ParaTransicaoInvalida() throws Exception {
         OrdemDeServico ordem = criarOrdemNoBanco();

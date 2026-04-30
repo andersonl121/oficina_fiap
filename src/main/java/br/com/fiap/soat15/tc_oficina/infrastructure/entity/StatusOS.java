@@ -7,5 +7,6 @@ public enum StatusOS {
     APROVADA,
     EM_EXECUCAO,
     CONCLUIDA,
+    ENTREGUE,
     CANCELADA
 }
