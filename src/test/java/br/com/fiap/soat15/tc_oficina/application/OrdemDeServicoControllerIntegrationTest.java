@@ -1,11 +1,14 @@
 package br.com.fiap.soat15.tc_oficina.application;
 
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.TipoItem;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
@@ -42,10 +45,12 @@ class OrdemDeServicoControllerIntegrationTest {
     @Autowired private ClienteRepository clienteRepository;
     @Autowired private VeiculoRepository veiculoRepository;
     @Autowired private ServicoRepository servicoRepository;
+    @Autowired private ItemEstoqueRepository itemEstoqueRepository;
 
     private Cliente clienteSalvo;
     private Veiculo veiculoSalvo;
     private Servico servicoSalvo;
+    private ItemEstoque itemEstoqueSalvo;
 
     @BeforeEach
     void setUp() {
@@ -53,6 +58,7 @@ class OrdemDeServicoControllerIntegrationTest {
         ordemRepository.deleteAll();
         veiculoRepository.deleteAll();
         servicoRepository.deleteAll();
+        itemEstoqueRepository.deleteAll();
         clienteRepository.deleteAll();
 
         clienteSalvo = clienteRepository.save(Cliente.builder()
@@ -65,6 +71,11 @@ class OrdemDeServicoControllerIntegrationTest {
         servicoSalvo = servicoRepository.save(Servico.builder()
                 .nome("Troca de Óleo").descricao("Troca de óleo e filtro")
                 .preco(new BigDecimal("120.00")).tempoEstimadoMinutos(30).ativo(true).build());
+
+        itemEstoqueSalvo = itemEstoqueRepository.save(ItemEstoque.builder()
+                .nome("Óleo 5W30").descricao("Óleo lubrificante sintético")
+                .quantidadeEstoque(100).precoUnitario(new BigDecimal("45.00"))
+                .tipo(TipoItem.INSUMO).ativo(true).build());
     }
 
     @Test
@@ -188,7 +199,10 @@ class OrdemDeServicoControllerIntegrationTest {
         OrdemDeServico ordem = criarOrdemNoBanco();
 
         Map<String, Object> body = Map.of(
-                "itens", List.of(Map.of("servicoId", servicoSalvo.getId(), "quantidade", 2))
+                "itens", List.of(Map.of(
+                        "servicoId", servicoSalvo.getId(),
+                        "itemEstoqueId", itemEstoqueSalvo.getId(),
+                        "quantidade", 2))
         );
 
         mockMvc.perform(post("/api/v1/ordens/{id}/itens", ordem.getId())
@@ -207,12 +221,17 @@ class OrdemDeServicoControllerIntegrationTest {
                 .nome("Alinhamento").descricao("Alinhamento e balanceamento")
                 .preco(new BigDecimal("80.00")).tempoEstimadoMinutos(60).ativo(true).build());
 
+        ItemEstoque itemEstoque2 = itemEstoqueRepository.save(ItemEstoque.builder()
+                .nome("Peso de balanceamento").descricao("Peso para balanceamento de rodas")
+                .quantidadeEstoque(200).precoUnitario(new BigDecimal("5.00"))
+                .tipo(TipoItem.PECA).ativo(true).build());
+
         OrdemDeServico ordem = criarOrdemNoBanco();
 
         Map<String, Object> body = Map.of(
                 "itens", List.of(
-                        Map.of("servicoId", servicoSalvo.getId(), "quantidade", 1),
-                        Map.of("servicoId", servico2.getId(), "quantidade", 2)
+                        Map.of("servicoId", servicoSalvo.getId(), "itemEstoqueId", itemEstoqueSalvo.getId(), "quantidade", 1),
+                        Map.of("servicoId", servico2.getId(), "itemEstoqueId", itemEstoque2.getId(), "quantidade", 2)
                 )
         );
 
@@ -230,7 +249,10 @@ class OrdemDeServicoControllerIntegrationTest {
         OrdemDeServico ordem = criarOrdemNoBanco();
 
         Map<String, Object> addBody = Map.of(
-                "itens", List.of(Map.of("servicoId", servicoSalvo.getId(), "quantidade", 1))
+                "itens", List.of(Map.of(
+                        "servicoId", servicoSalvo.getId(),
+                        "itemEstoqueId", itemEstoqueSalvo.getId(),
+                        "quantidade", 1))
         );
         MvcResult addResult = mockMvc.perform(post("/api/v1/ordens/{id}/itens", ordem.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -257,7 +279,10 @@ class OrdemDeServicoControllerIntegrationTest {
         avancarStatusBanco(ordem.getId(), "APROVADA");
 
         Map<String, Object> body = Map.of(
-                "itens", List.of(Map.of("servicoId", servicoSalvo.getId(), "quantidade", 1))
+                "itens", List.of(Map.of(
+                        "servicoId", servicoSalvo.getId(),
+                        "itemEstoqueId", itemEstoqueSalvo.getId(),
+                        "quantidade", 1))
         );
 
         mockMvc.perform(post("/api/v1/ordens/{id}/itens", ordem.getId())

@@ -6,13 +6,16 @@ import br.com.fiap.soat15.tc_oficina.domain.model.AvancarStatusDTO;
 import br.com.fiap.soat15.tc_oficina.domain.model.CriarOrdemDTO;
 import br.com.fiap.soat15.tc_oficina.domain.model.OrdemDeServicoDTO;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Cliente;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.TipoItem;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
@@ -47,6 +50,7 @@ class OrdemDeServicoServiceImplTest {
     @Mock private ClienteRepository clienteRepository;
     @Mock private VeiculoRepository veiculoRepository;
     @Mock private ServicoRepository servicoRepository;
+    @Mock private ItemEstoqueRepository itemEstoqueRepository;
 
     @InjectMocks
     private OrdemDeServicoServiceImpl ordemService;
@@ -54,6 +58,7 @@ class OrdemDeServicoServiceImplTest {
     private Cliente cliente;
     private Veiculo veiculo;
     private Servico servico;
+    private ItemEstoque itemEstoque;
     private OrdemDeServico ordem;
 
     @BeforeEach
@@ -68,6 +73,11 @@ class OrdemDeServicoServiceImplTest {
         servico = Servico.builder()
                 .id(3L).nome("Troca de Óleo").preco(new BigDecimal("120.00"))
                 .tempoEstimadoMinutos(30).ativo(true).build();
+
+        itemEstoque = ItemEstoque.builder()
+                .id(5L).nome("Óleo 5W30").descricao("Óleo lubrificante sintético")
+                .quantidadeEstoque(100).precoUnitario(new BigDecimal("45.00"))
+                .tipo(TipoItem.INSUMO).ativo(true).build();
 
         // OrdemDeServico não tem campo cliente — cliente vem via veiculo.getCliente()
         ordem = OrdemDeServico.builder()
@@ -275,7 +285,7 @@ class OrdemDeServicoServiceImplTest {
     @DisplayName("Deve recalcular tempo médio dos serviços ao concluir OS")
     void deveRecalcularTempoMedioAoConcluir() {
         ItemOS item = ItemOS.builder()
-                .id(1L).ordemDeServico(ordem).servico(servico)
+                .id(1L).ordemDeServico(ordem).servico(servico).itemEstoque(itemEstoque)
                 .quantidade(1).precoUnitario(new BigDecimal("120.00"))
                 .subtotal(new BigDecimal("120.00")).build();
 
@@ -309,7 +319,7 @@ class OrdemDeServicoServiceImplTest {
     @DisplayName("Deve adicionar um item à OS com sucesso")
     void deveAdicionarItemComSucesso() {
         ItemOS itemSalvo = ItemOS.builder()
-                .id(1L).ordemDeServico(ordem).servico(servico)
+                .id(1L).ordemDeServico(ordem).servico(servico).itemEstoque(itemEstoque)
                 .quantidade(2).precoUnitario(new BigDecimal("120.00"))
                 .subtotal(new BigDecimal("240.00")).build();
 
@@ -321,10 +331,11 @@ class OrdemDeServicoServiceImplTest {
 
         when(ordemRepository.findById(10L)).thenReturn(Optional.of(ordem));
         when(servicoRepository.findById(3L)).thenReturn(Optional.of(servico));
+        when(itemEstoqueRepository.findById(5L)).thenReturn(Optional.of(itemEstoque));
         when(ordemRepository.save(any())).thenReturn(ordemComItem);
 
         AdicionarItemDTO dto = AdicionarItemDTO.builder()
-                .itens(List.of(AdicionarItemDTO.Item.builder().servicoId(3L).quantidade(2).build()))
+                .itens(List.of(AdicionarItemDTO.Item.builder().servicoId(3L).itemEstoqueId(5L).quantidade(2).build()))
                 .build();
 
         OrdemDeServicoDTO resultado = ordemService.adicionarItens(10L, dto);
@@ -340,9 +351,13 @@ class OrdemDeServicoServiceImplTest {
                 .id(4L).nome("Alinhamento").preco(new BigDecimal("80.00"))
                 .tempoEstimadoMinutos(60).ativo(true).build();
 
-        ItemOS item1 = ItemOS.builder().id(1L).ordemDeServico(ordem).servico(servico)
+        ItemEstoque itemEstoque2 = ItemEstoque.builder()
+                .id(6L).nome("Peso de balanceamento").quantidadeEstoque(200)
+                .precoUnitario(new BigDecimal("5.00")).tipo(TipoItem.PECA).ativo(true).build();
+
+        ItemOS item1 = ItemOS.builder().id(1L).ordemDeServico(ordem).servico(servico).itemEstoque(itemEstoque)
                 .quantidade(1).precoUnitario(new BigDecimal("120.00")).subtotal(new BigDecimal("120.00")).build();
-        ItemOS item2 = ItemOS.builder().id(2L).ordemDeServico(ordem).servico(servico2)
+        ItemOS item2 = ItemOS.builder().id(2L).ordemDeServico(ordem).servico(servico2).itemEstoque(itemEstoque2)
                 .quantidade(1).precoUnitario(new BigDecimal("80.00")).subtotal(new BigDecimal("80.00")).build();
 
         OrdemDeServico ordemComItens = OrdemDeServico.builder()
@@ -354,12 +369,14 @@ class OrdemDeServicoServiceImplTest {
         when(ordemRepository.findById(10L)).thenReturn(Optional.of(ordem));
         when(servicoRepository.findById(3L)).thenReturn(Optional.of(servico));
         when(servicoRepository.findById(4L)).thenReturn(Optional.of(servico2));
+        when(itemEstoqueRepository.findById(5L)).thenReturn(Optional.of(itemEstoque));
+        when(itemEstoqueRepository.findById(6L)).thenReturn(Optional.of(itemEstoque2));
         when(ordemRepository.save(any())).thenReturn(ordemComItens);
 
         AdicionarItemDTO dto = AdicionarItemDTO.builder()
                 .itens(List.of(
-                        AdicionarItemDTO.Item.builder().servicoId(3L).quantidade(1).build(),
-                        AdicionarItemDTO.Item.builder().servicoId(4L).quantidade(1).build()
+                        AdicionarItemDTO.Item.builder().servicoId(3L).itemEstoqueId(5L).quantidade(1).build(),
+                        AdicionarItemDTO.Item.builder().servicoId(4L).itemEstoqueId(6L).quantidade(1).build()
                 ))
                 .build();
 

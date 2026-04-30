@@ -19,5 +19,4 @@ public class ItemOSDTO {
     private Integer quantidade;
     private BigDecimal precoUnitario;
     private BigDecimal subtotal;
-    // TODO (Peças): adicionar pecaId e pecaNome quando módulo de Peças estiver pronto
 }
