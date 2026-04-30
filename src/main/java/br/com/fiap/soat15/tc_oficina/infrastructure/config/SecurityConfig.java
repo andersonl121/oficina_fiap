@@ -5,6 +5,7 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.security.UsuarioDetailsServi
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,10 +33,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // rotas públicas
+                        // rotas públicas - autenticação e documentação
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                        // tudo mais requer autenticação
+                        // rotas públicas - acompanhamento de OS pelo cliente (sem JWT)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ordens/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ordens/cliente/{clienteId}").permitAll()
+                        // tudo mais requer autenticação JWT
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

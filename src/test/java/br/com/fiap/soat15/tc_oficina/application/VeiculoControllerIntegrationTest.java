@@ -54,30 +54,30 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /veiculos - deve retornar lista vazia")
+    @DisplayName("GET /api/v1/veiculos - deve retornar lista vazia")
     void deveRetornarListaVazia() throws Exception {
-        mockMvc.perform(get("/veiculos"))
+        mockMvc.perform(get("/api/v1/veiculos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
-    @DisplayName("GET /veiculos - deve listar veículos cadastrados")
+    @DisplayName("GET /api/v1/veiculos - deve listar veículos cadastrados")
     void deveListarVeiculos() throws Exception {
         veiculoRepository.save(veiculoEntity("ABC1D23"));
         veiculoRepository.save(veiculoEntity("XYZ9W87"));
 
-        mockMvc.perform(get("/veiculos"))
+        mockMvc.perform(get("/api/v1/veiculos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
-    @DisplayName("GET /veiculos/{id} - deve retornar veículo por ID")
+    @DisplayName("GET /api/v1/veiculos/{id} - deve retornar veículo por ID")
     void deveBuscarVeiculoPorId() throws Exception {
         Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
-        mockMvc.perform(get("/veiculos/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/veiculos/{id}", saved.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placa", is("ABC1D23")))
                 .andExpect(jsonPath("$.marca", is("Toyota")))
@@ -86,14 +86,14 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /veiculos/{id} - deve retornar 404 quando não encontrado")
+    @DisplayName("GET /api/v1/veiculos/{id} - deve retornar 404 quando não encontrado")
     void deveRetornarErroQuandoVeiculoNaoEncontrado() throws Exception {
-        mockMvc.perform(get("/veiculos/{id}", 999L))
+        mockMvc.perform(get("/api/v1/veiculos/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve criar veículo com sucesso")
+    @DisplayName("POST /api/v1/veiculos - deve criar veículo com sucesso")
     void deveCriarVeiculo() throws Exception {
         Map<String, Object> body = Map.of(
                 "placa", "ABC1D23",
@@ -103,7 +103,7 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isCreated())
@@ -113,7 +113,7 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve aceitar placa no formato antigo")
+    @DisplayName("POST /api/v1/veiculos - deve aceitar placa no formato antigo")
     void deveAceitarPlacaFormatoAntigo() throws Exception {
         Map<String, Object> body = Map.of(
                 "placa", "ABC-1234",
@@ -123,7 +123,7 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isCreated())
@@ -131,7 +131,7 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve retornar 400 com placa inválida")
+    @DisplayName("POST /api/v1/veiculos - deve retornar 400 com placa inválida")
     void deveRetornarErroComPlacaInvalida() throws Exception {
         Map<String, Object> body = Map.of(
                 "placa", "INVALIDA",
@@ -141,14 +141,14 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve retornar erro com placa vazia")
+    @DisplayName("POST /api/v1/veiculos - deve retornar erro com placa vazia")
     void deveRetornarErroComPlacaVazia() throws Exception {
         Map<String, Object> body = Map.of(
                 "placa", "",
@@ -158,14 +158,14 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve retornar 400 com placa duplicada")
+    @DisplayName("POST /api/v1/veiculos - deve retornar 400 com placa duplicada")
     void deveRetornarErroComPlacaDuplicada() throws Exception {
         veiculoRepository.save(veiculoEntity("ABC1D23"));
 
@@ -177,14 +177,14 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("POST /veiculos - deve retornar 404 com cliente inexistente")
+    @DisplayName("POST /api/v1/veiculos - deve retornar 404 com cliente inexistente")
     void deveRetornarErroComClienteInexistente() throws Exception {
         Map<String, Object> body = Map.of(
                 "placa", "ABC1D23",
@@ -194,14 +194,14 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", 9999L
         );
 
-        mockMvc.perform(post("/veiculos")
+        mockMvc.perform(post("/api/v1/veiculos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("PUT /veiculos/{id} - deve atualizar veículo com sucesso")
+    @DisplayName("PUT /api/v1/veiculos/{id} - deve atualizar veículo com sucesso")
     void deveAtualizarVeiculo() throws Exception {
         Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
@@ -213,7 +213,7 @@ class VeiculoControllerIntegrationTest {
                 "clienteId", clienteSalvo.getId()
         );
 
-        mockMvc.perform(put("/veiculos/{id}", saved.getId())
+        mockMvc.perform(put("/api/v1/veiculos/{id}", saved.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))
                 .andExpect(status().isOk())
@@ -223,18 +223,18 @@ class VeiculoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("DELETE /veiculos/{id} - deve deletar veículo com sucesso")
+    @DisplayName("DELETE /api/v1/veiculos/{id} - deve deletar veículo com sucesso")
     void deveDeletarVeiculo() throws Exception {
         Veiculo saved = veiculoRepository.save(veiculoEntity("ABC1D23"));
 
-        mockMvc.perform(delete("/veiculos/{id}", saved.getId()))
+        mockMvc.perform(delete("/api/v1/veiculos/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    @DisplayName("DELETE /veiculos/{id} - deve retornar 404 ao deletar inexistente")
+    @DisplayName("DELETE /api/v1/veiculos/{id} - deve retornar 404 ao deletar inexistente")
     void deveRetornarErroAoDeletarInexistente() throws Exception {
-        mockMvc.perform(delete("/veiculos/{id}", 999L))
+        mockMvc.perform(delete("/api/v1/veiculos/{id}", 999L))
                 .andExpect(status().isNotFound());
     }
 

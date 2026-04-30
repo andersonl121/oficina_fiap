@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/veiculos")
+@RequestMapping("/api/v1/veiculos")
 @AllArgsConstructor
 @Tag(name = "Veículos", description = "Gerenciamento de veículos")
 public class VeiculoController {

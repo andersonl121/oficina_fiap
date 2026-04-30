@@ -3,7 +3,7 @@ package br.com.fiap.soat15.tc_oficina.domain.impl;
 import br.com.fiap.soat15.tc_oficina.domain.AuthService;
 import br.com.fiap.soat15.tc_oficina.domain.model.LoginRequest;
 import br.com.fiap.soat15.tc_oficina.domain.model.LoginResponse;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.UsuarioEntity;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Usuario;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.UsuarioRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.security.JwtService;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
         if (usuarioRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Usuário já existe: " + request.getUsername());
         }
-        usuarioRepository.save(UsuarioEntity.builder()
+        usuarioRepository.save(Usuario.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build());

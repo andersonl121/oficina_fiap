@@ -29,6 +29,9 @@ public class AdicionarItemDTO {
         @NotNull(message = "servicoId é obrigatório")
         private Long servicoId;
 
+        @NotNull(message = "itemEstoqueId é obrigatório")
+        private Long itemEstoqueId;
+
         @NotNull(message = "Quantidade é obrigatória")
         @Min(value = 1, message = "Quantidade deve ser pelo menos 1")
         private Integer quantidade;

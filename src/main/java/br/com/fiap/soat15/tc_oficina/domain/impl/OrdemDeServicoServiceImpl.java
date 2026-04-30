@@ -12,7 +12,9 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.StatusOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
+import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
+import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
@@ -42,6 +44,7 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
     private final ClienteRepository clienteRepository;
     private final VeiculoRepository veiculoRepository;
     private final ServicoRepository servicoRepository;
+    private final ItemEstoqueRepository itemEstoqueRepository;
 
     @Override
     @Transactional
@@ -127,12 +130,16 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             Servico servico = servicoRepository.findById(itemDTO.getServicoId())
                     .orElseThrow(() -> new NoSuchElementException("Serviço não encontrado: " + itemDTO.getServicoId()));
 
+            ItemEstoque itemEstoque = itemEstoqueRepository.findById(itemDTO.getItemEstoqueId())
+                    .orElseThrow(() -> new NoSuchElementException("Item de estoque não encontrado: " + itemDTO.getItemEstoqueId()));
+
             BigDecimal precoUnitario = servico.getPreco();
             BigDecimal subtotal = precoUnitario.multiply(BigDecimal.valueOf(itemDTO.getQuantidade()));
 
             ItemOS item = ItemOS.builder()
                     .ordemDeServico(ordem)
                     .servico(servico)
+                    .itemEstoque(itemEstoque)
                     .quantidade(itemDTO.getQuantidade())
                     .precoUnitario(precoUnitario)
                     .subtotal(subtotal)
@@ -257,6 +264,8 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
                 .id(item.getId())
                 .servicoId(item.getServico().getId())
                 .servicoNome(item.getServico().getNome())
+                .itemEstoqueId(item.getItemEstoque().getId())
+                .itemEstoqueNome(item.getItemEstoque().getNome())
                 .quantidade(item.getQuantidade())
                 .precoUnitario(item.getPrecoUnitario())
                 .subtotal(item.getSubtotal())
