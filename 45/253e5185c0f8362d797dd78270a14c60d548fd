@@ -1,0 +1,34 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/entity/StatusOS.java
+  2d712665530757a6 10
+src/test/java/br/com/fiap/soat15/tc_oficina/application/OrdemDeServicoControllerIntegrationTest.java
+  2d712665530757a6 184-203
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/impl/OrdemDeServicoServiceImpl.java
+  2d712665530757a6 39,109-110,192
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/OrdemDeServicoServiceImplTest.java
+  2d712665530757a6 233,235,244-262
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "45253e5185c0f8362d797dd78270a14c60d548fd",
+  "prompts": {
+    "2d712665530757a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "24d5a1e5-d666-40d3-a75c-176ef18c4467",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal",
+      "messages": [],
+      "total_additions": 49,
+      "total_deletions": 8,
+      "accepted_lines": 49,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_b624c3f5450253": {
+      "author": "Guilherme Menoci Pessoal"
+    }
+  }
+}
