@@ -15,7 +15,6 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
-import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
@@ -37,10 +36,9 @@ import java.util.Set;
 public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
 
     private static final Set<StatusOS> STATUS_PERMITE_ITENS = EnumSet.of(StatusOS.ABERTA, StatusOS.EM_DIAGNOSTICO);
-    private static final Set<StatusOS> STATUS_TERMINAIS = EnumSet.of(StatusOS.CONCLUIDA, StatusOS.CANCELADA);
+    private static final Set<StatusOS> STATUS_TERMINAIS = EnumSet.of(StatusOS.ENTREGUE, StatusOS.CANCELADA);
 
     private final OrdemDeServicoRepository ordemRepository;
-    private final ItemOSRepository itemOSRepository;
     private final ClienteRepository clienteRepository;
     private final VeiculoRepository veiculoRepository;
     private final ServicoRepository servicoRepository;
@@ -107,8 +105,9 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
         }
 
         if (dto.getNovoStatus() == StatusOS.CONCLUIDA) {
-            ordem.setDataFechamento(LocalDateTime.now());
             recalcularTempoMedioServicos(ordem);
+        } else if (dto.getNovoStatus() == StatusOS.ENTREGUE) {
+            ordem.setDataFechamento(LocalDateTime.now());
         } else if (dto.getNovoStatus() == StatusOS.CANCELADA) {
             ordem.setDataFechamento(LocalDateTime.now());
         }
@@ -190,6 +189,7 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             case AGUARDANDO_APROVACAO -> novo == StatusOS.APROVADA || novo == StatusOS.CANCELADA;
             case APROVADA -> novo == StatusOS.EM_EXECUCAO || novo == StatusOS.CANCELADA;
             case EM_EXECUCAO -> novo == StatusOS.CONCLUIDA;
+            case CONCLUIDA -> novo == StatusOS.ENTREGUE;
             default -> false;
         };
 

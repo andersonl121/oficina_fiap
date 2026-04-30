@@ -16,7 +16,6 @@ import br.com.fiap.soat15.tc_oficina.infrastructure.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.infrastructure.exception.BusinessException;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ClienteRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
-import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemOSRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ServicoRepository;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.VeiculoRepository;
@@ -46,7 +45,6 @@ import static org.mockito.Mockito.when;
 class OrdemDeServicoServiceImplTest {
 
     @Mock private OrdemDeServicoRepository ordemRepository;
-    @Mock private ItemOSRepository itemOSRepository;
     @Mock private ClienteRepository clienteRepository;
     @Mock private VeiculoRepository veiculoRepository;
     @Mock private ServicoRepository servicoRepository;
@@ -232,15 +230,36 @@ class OrdemDeServicoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve lançar exceção ao tentar alterar status de OS finalizada")
+    @DisplayName("Deve lançar exceção ao tentar alterar status de OS entregue (terminal)")
     void deveLancarExcecaoOsJaFinalizada() {
-        ordem.setStatus(StatusOS.CONCLUIDA);
+        ordem.setStatus(StatusOS.ENTREGUE);
         when(ordemRepository.findById(10L)).thenReturn(Optional.of(ordem));
 
         assertThatThrownBy(() -> ordemService.avancarStatus(10L,
                 AvancarStatusDTO.builder().novoStatus(StatusOS.CANCELADA).build()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("finalizada");
+    }
+
+    @Test
+    @DisplayName("Deve avançar de CONCLUIDA para ENTREGUE com sucesso")
+    void deveAvancarParaEntregue() {
+        ordem.setStatus(StatusOS.CONCLUIDA);
+
+        OrdemDeServico ordemEntregue = OrdemDeServico.builder()
+                .id(10L).numero("OS-2025-0001").veiculo(veiculo)
+                .status(StatusOS.ENTREGUE).dataAbertura(LocalDateTime.now())
+                .dataFechamento(LocalDateTime.now())
+                .descricaoProblema("Barulho").valorTotal(BigDecimal.ZERO).itens(new ArrayList<>()).build();
+
+        when(ordemRepository.findById(10L)).thenReturn(Optional.of(ordem));
+        when(ordemRepository.save(any())).thenReturn(ordemEntregue);
+
+        OrdemDeServicoDTO resultado = ordemService.avancarStatus(10L,
+                AvancarStatusDTO.builder().novoStatus(StatusOS.ENTREGUE).build());
+
+        assertThat(resultado.getStatus()).isEqualTo(StatusOS.ENTREGUE);
+        assertThat(resultado.getDataFechamento()).isNotNull();
     }
 
     @Test
