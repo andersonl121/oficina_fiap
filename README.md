@@ -74,6 +74,7 @@ src/main/java/br/com/fiap/soat15/tc_oficina/
 | H2 | — | Banco em memória exclusivo para testes |
 | Springdoc OpenAPI (Swagger) | 2.8.8 | Documentação da API |
 | JaCoCo | 0.8.12 | Cobertura de testes (mínimo 80%) |
+| SonarQube | 26.x (community) | Análise estática de qualidade e segurança do código |
 | Lombok | 1.18.42 | Redução de boilerplate |
 
 > **Por que PostgreSQL?**
@@ -96,7 +97,7 @@ src/main/java/br/com/fiap/soat15/tc_oficina/
 
 ## 🧪 Testes
 
-- **210 testes** (unitários + integração) — 0 falhas
+- **212 testes** (unitários + integração) — 0 falhas
 - **Cobertura de 92%** nos domínios críticos (mínimo exigido: 80%)
 - Execução com relatório automático:
 
@@ -104,6 +105,37 @@ src/main/java/br/com/fiap/soat15/tc_oficina/
 ./mvnw test
 # Relatório HTML gerado em: target/site/jacoco/index.html
 ```
+
+---
+
+## 📊 Qualidade de Código — SonarQube
+
+A análise estática é feita com SonarQube Community via Docker.
+
+### Subir o SonarQube
+
+```bash
+docker run -d --name sonarqube \
+  -p 9000:9000 \
+  sonarqube:community
+```
+
+Acesse **http://localhost:9000** (login: `admin` / `admin`).
+
+### Gerar token
+
+1. Avatar → **My Account → Security**
+2. **Generate Tokens** → tipo `User Token` → **Generate**
+3. Copie o token gerado
+
+### Rodar a análise
+
+```bash
+./mvnw verify sonar:sonar -Dsonar.token=SEU_TOKEN_AQUI
+```
+
+O dashboard com Bugs, Vulnerabilities, Code Smells e cobertura fica em:
+**http://localhost:9000/dashboard?id=oficina-fiap**
 
 ---
 
