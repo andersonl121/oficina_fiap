@@ -1,0 +1,32 @@
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/StringUtilsTest.java
+  2d712665530757a6 1-38
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/DocumentoValidatorTest.java
+  2d712665530757a6 65-103
+pom.xml
+  2d712665530757a6 124-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "ee33c5029e836891007082572ce39851ac008437",
+  "prompts": {
+    "2d712665530757a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "24d5a1e5-d666-40d3-a75c-176ef18c4467",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal",
+      "messages": [],
+      "total_additions": 118,
+      "total_deletions": 0,
+      "accepted_lines": 118,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_b624c3f5450253": {
+      "author": "Guilherme Menoci Pessoal"
+    }
+  }
+}
