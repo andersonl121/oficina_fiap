@@ -135,6 +135,9 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             BigDecimal precoUnitario = servico.getPreco();
             BigDecimal subtotal = precoUnitario.multiply(BigDecimal.valueOf(itemDTO.getQuantidade()));
 
+            itemEstoque.reduzirEstoque(itemDTO.getQuantidade());
+            itemEstoqueRepository.save(itemEstoque);
+
             ItemOS item = ItemOS.builder()
                     .ordemDeServico(ordem)
                     .servico(servico)
@@ -165,6 +168,10 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Item não encontrado: " + itemId));
+
+        ItemEstoque itemEstoque = item.getItemEstoque();
+        itemEstoque.aumentarEstoque(item.getQuantidade());
+        itemEstoqueRepository.save(itemEstoque);
 
         ordem.getItens().remove(item);
         recalcularTotal(ordem);

@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -288,6 +289,55 @@ class OrdemDeServicoControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.itens", hasSize(0)))
                 .andExpect(jsonPath("$.valorTotal", is(0)));
+    }
+
+    @Test
+    @DisplayName("POST /api/v1/ordens/{id}/itens - deve baixar estoque ao adicionar item")
+    void deveBaixarEstoqueAoAdicionarItem() throws Exception {
+        OrdemDeServico ordem = criarOrdemNoBanco();
+        int estoqueAntes = itemEstoqueRepository.findById(itemEstoqueSalvo.getId()).get().getQuantidadeEstoque();
+
+        Map<String, Object> body = Map.of(
+                "itens", List.of(Map.of(
+                        "servicoId", servicoSalvo.getId(),
+                        "itemEstoqueId", itemEstoqueSalvo.getId(),
+                        "quantidade", 3))
+        );
+
+        mockMvc.perform(post("/api/v1/ordens/{id}/itens", ordem.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isCreated());
+
+        int estoqueDepois = itemEstoqueRepository.findById(itemEstoqueSalvo.getId()).get().getQuantidadeEstoque();
+        assertThat(estoqueDepois).isEqualTo(estoqueAntes - 3);
+    }
+
+    @Test
+    @DisplayName("DELETE /api/v1/ordens/{id}/itens/{itemId} - deve devolver estoque ao remover item")
+    void deveDevolverEstoqueAoRemoverItem() throws Exception {
+        OrdemDeServico ordem = criarOrdemNoBanco();
+
+        Map<String, Object> addBody = Map.of(
+                "itens", List.of(Map.of(
+                        "servicoId", servicoSalvo.getId(),
+                        "itemEstoqueId", itemEstoqueSalvo.getId(),
+                        "quantidade", 2))
+        );
+        MvcResult addResult = mockMvc.perform(post("/api/v1/ordens/{id}/itens", ordem.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addBody)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        int estoqueAposAdicao = itemEstoqueRepository.findById(itemEstoqueSalvo.getId()).get().getQuantidadeEstoque();
+        Long itemId = objectMapper.readTree(addResult.getResponse().getContentAsString()).get("itens").get(0).get("id").asLong();
+
+        mockMvc.perform(delete("/api/v1/ordens/{id}/itens/{itemId}", ordem.getId(), itemId))
+                .andExpect(status().isOk());
+
+        int estoqueAposRemocao = itemEstoqueRepository.findById(itemEstoqueSalvo.getId()).get().getQuantidadeEstoque();
+        assertThat(estoqueAposRemocao).isEqualTo(estoqueAposAdicao + 2);
     }
 
     @Test
