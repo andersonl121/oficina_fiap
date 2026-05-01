@@ -1,0 +1,16 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/infrastructure/config/SecurityConfig.java
+  h_b624c3f5450253 38
+src/main/resources/application.yaml
+  h_b624c3f5450253 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "a6ed8c650c0db204dad3f8e761b4007e50784f0e",
+  "prompts": {},
+  "humans": {
+    "h_b624c3f5450253": {
+      "author": "Guilherme Menoci Pessoal"
+    }
+  }
+}
