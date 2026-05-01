@@ -5,7 +5,7 @@ import br.com.fiap.soat15.tc_oficina.domain.service.ItemEstoqueService;
 import br.com.fiap.soat15.tc_oficina.domain.validator.StringUtils;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.infrastructure.repository.ItemEstoqueRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@AllArgsConstructor
 public class ItemEstoqueServiceImpl implements ItemEstoqueService {
 
-    @Autowired
-    private ItemEstoqueRepository itemEstoqueRepository;
-
+    private final ItemEstoqueRepository itemEstoqueRepository;
 
     @Override
     public ItemEstoqueDTO criarItem(ItemEstoqueDTO dto) {
