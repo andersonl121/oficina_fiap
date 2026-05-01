@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // rotas públicas - autenticação e documentação
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v1/api-docs/**").permitAll()
                         // rotas públicas - acompanhamento de OS pelo cliente (sem JWT)
                         .requestMatchers(HttpMethod.GET, "/api/v1/ordens/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/ordens/cliente/{clienteId}").permitAll()

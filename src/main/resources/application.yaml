@@ -23,4 +23,4 @@ springdoc:
     path: /swagger-ui.html
     tags-sorter: alpha
   api-docs:
-    path: /v3/api-docs
+    path: /v1/api-docs
