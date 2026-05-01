@@ -62,4 +62,43 @@ class DocumentoValidatorTest {
     void deveRejeitarCpfCnpjEmBranco(String cpfCnpj) {
         assertThat(validator.isValid(cpfCnpj)).isFalse();
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "11222333000181",
+            "60701190000104",
+            "45997418000153",
+            "33014556000196"
+    })
+    @DisplayName("Deve aceitar CNPJs numéricos válidos")
+    void deveAceitarCnpjNumericoValido(String cnpj) {
+        assertThat(validator.isValid(cnpj)).isTrue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "11111111111111",   // todos dígitos iguais
+            "12345678000100",   // dígitos verificadores errados
+            "00000000000000"    // todos zeros
+    })
+    @DisplayName("Deve rejeitar CNPJs numéricos inválidos")
+    void deveRejeitarCnpjNumericoInvalido(String cnpj) {
+        assertThat(validator.isValid(cnpj)).isFalse();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "11.222.333/0001-81",   // CNPJ numérico com formatação
+            "111.444.777-35"        // CPF com formatação
+    })
+    @DisplayName("Deve aceitar documentos com máscara de formatação")
+    void deveAceitarDocumentosComMascara(String documento) {
+        assertThat(validator.isValid(documento)).isTrue();
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Deve rejeitar null")
+    void deveRejeitarNull() {
+        assertThat(validator.isValid(null)).isFalse();
+    }
 }
