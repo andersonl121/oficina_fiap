@@ -441,7 +441,7 @@ class OrdemDeServicoServiceImplTest {
     @DisplayName("Deve remover item da OS com sucesso")
     void deveRemoverItemComSucesso() {
         ItemOS item = ItemOS.builder()
-                .id(1L).ordemDeServico(ordem).servico(servico)
+                .id(1L).ordemDeServico(ordem).servico(servico).itemEstoque(itemEstoque)
                 .quantidade(1).precoUnitario(new BigDecimal("120.00"))
                 .subtotal(new BigDecimal("120.00")).build();
         ordem.getItens().add(item);
@@ -454,6 +454,7 @@ class OrdemDeServicoServiceImplTest {
 
         when(ordemRepository.findById(10L)).thenReturn(Optional.of(ordem));
         when(ordemRepository.save(any())).thenReturn(ordemSemItem);
+        when(itemEstoqueRepository.save(any())).thenReturn(itemEstoque);
 
         OrdemDeServicoDTO resultado = ordemService.removerItem(10L, 1L);
 
