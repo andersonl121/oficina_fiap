@@ -1,10 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain.impl;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.AdicionarItemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.AvancarStatusDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.CriarOrdemDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.ItemOSDTO;
-import br.com.fiap.soat15.tc_oficina.domain.model.OrdemDeServicoDTO;
+import br.com.fiap.soat15.tc_oficina.domain.model.*;
 import br.com.fiap.soat15.tc_oficina.domain.service.OrdemDeServicoService;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemOS;
 import br.com.fiap.soat15.tc_oficina.infrastructure.entity.OrdemDeServico;
@@ -23,13 +19,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +88,43 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             throw new NoSuchElementException("Cliente não encontrado: " + clienteId);
         }
         return ordemRepository.findByVeiculoClienteId(clienteId).stream().map(this::toDTO).toList();
+    }
+
+    @Override
+    @Transactional
+    public TempoExecucaoDTO listarTempoMedioPorPeriodo(LocalDate dataInicial, LocalDate dataFinal) {
+        dataFinal = ofNullable(dataFinal).orElse(dataInicial);
+
+        LocalDateTime dataFinalEndOfDay = dataFinal.plusDays(1).atStartOfDay();
+        LocalDateTime dataInicialStartOfDay = dataInicial.atStartOfDay();
+
+        List<OrdemDeServico> ordens = ordemRepository.findByDataExecucaoBetweenAndStatusEquals(
+                dataInicialStartOfDay, dataFinalEndOfDay, StatusOS.CONCLUIDA);
+
+        Integer qtdOrdens = 0;
+
+        BigDecimal averageTime = BigDecimal.ZERO;
+
+        if (nonNull(ordens) && !ordens.isEmpty()) {
+            BigDecimal timeExecutions = BigDecimal.valueOf(ordens.stream()
+                    .mapToLong(o -> Duration.between(
+                            o.getDataInicioExecucao(),
+                            o.getDataFechamento()
+                    ).toHours())
+                    .sum());
+
+            qtdOrdens = ordens.size();
+
+            averageTime = timeExecutions.divide(
+                    BigDecimal.valueOf(qtdOrdens), RoundingMode.HALF_DOWN);
+        }
+
+        return TempoExecucaoDTO.builder()
+                .tempoMedio(averageTime)
+                .quantidadeOrdens(qtdOrdens)
+                .dataInicio(dataInicial)
+                .dataFim(dataFinal)
+                .build();
     }
 
     @Override

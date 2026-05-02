@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "d5b4bdff-2612-48c8-acf3-12482a512b89",
+		"name": "Oficina FIAP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9260946"
+	},
+	"item": [
+		{
+			"name": "Tempo Médio OSs por Período",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/ordens/tempo/{{dataInicial}}/{{dataFinal}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"ordens",
+						"tempo",
+						"{{dataInicial}}",
+						"{{dataFinal}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
