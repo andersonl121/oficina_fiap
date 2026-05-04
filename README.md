@@ -176,7 +176,7 @@ Swagger disponível em: **http://localhost:8080/swagger-ui.html**
 > Dentro da raíz do projeto, executar:
 
 ```bash
-# docker-compose up --build
+docker-compose up --build
 ```
 
 ---
