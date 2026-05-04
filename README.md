@@ -173,10 +173,9 @@ Swagger disponível em: **http://localhost:8080/swagger-ui.html**
 
 ## 🐳 Docker
 
-> _Seção a ser preenchida pelo time — Dockerfile e docker-compose em desenvolvimento._
+> Dentro da raíz do projeto, executar:
 
 ```bash
-# Em breve:
 # docker-compose up --build
 ```
 
