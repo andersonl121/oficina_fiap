@@ -103,15 +103,13 @@ public class OrdemDeServicoController {
         return ResponseEntity.ok(ordemService.removerItem(id, itemId));
     }
 
-    @GetMapping("/tempo/{startDate}/{endDate}")
+    @GetMapping("/tempo/{dataInicial}/{dataFinal}")
     @Operation(summary = "Listar tempo médio de execução de serviço em um período")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Tempo médio de execução retornado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Sem Ordens executadas no período")
-    })
+    @ApiResponse(responseCode = "200", description = "Tempo médio de execução retornado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Sem Ordens executadas no período")
     public ResponseEntity<TempoExecucaoDTO> listarTempoMedioPorPeriodo(
-            @PathVariable @NotNull(message = "Data Inicial deve ser informada") LocalDate dataInicial,
-            @PathVariable  LocalDate dataFinal) {
+            @PathVariable("dataInicial") @NotNull(message = "Data Inicial deve ser informada") LocalDate dataInicial,
+            @PathVariable("dataFinal") LocalDate dataFinal) {
         return ResponseEntity.ok(ordemService.listarTempoMedioPorPeriodo(dataInicial, dataFinal));
     }
 }
