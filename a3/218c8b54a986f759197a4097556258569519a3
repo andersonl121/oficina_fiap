@@ -1,0 +1,26 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/application/OrdemDeServicoController.java
+  s_2d433ac74de594::t_e73f1e5da04d89 108-109
+  s_2d433ac74de594::t_11298555764e04 106
+  s_2d433ac74de594::t_c85d46a82c1452 111-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "a3218c8b54a986f759197a4097556258569519a3",
+  "prompts": {},
+  "humans": {
+    "h_acd2deed7a690e": {
+      "author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_2d433ac74de594": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "528f1615-0b19-4cbc-89c8-d97bd5fdde69",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
