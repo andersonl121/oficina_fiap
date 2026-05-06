@@ -533,9 +533,9 @@ class OrdemDeServicoServiceImplTest {
         assertEquals(new BigDecimal("2"), result.getTempoMedio()); // (2 + 3) / 2 = 2.5 → HALF_DOWN = 2
 
         verify(ordemRepository).findByDataExecucaoBetweenAndStatusEquals(
-                eq(dataInicial.atStartOfDay()),
-                eq(dataInicial.plusDays(1).atStartOfDay()),
-                eq(StatusOS.CONCLUIDA)
+                dataInicial.atStartOfDay(),
+                dataInicial.plusDays(1).atStartOfDay(),
+                StatusOS.CONCLUIDA
         );
     }
 
