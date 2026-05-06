@@ -1,0 +1,19 @@
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/OrdemDeServicoServiceImplTest.java
+  s_2d433ac74de594::t_a928b3fdf97a9c 536-538
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "d82af0d2707b09d7ce819385ae742100d4fae2c3",
+  "prompts": {},
+  "sessions": {
+    "s_2d433ac74de594": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "528f1615-0b19-4cbc-89c8-d97bd5fdde69",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
