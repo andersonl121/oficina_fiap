@@ -1,6 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.ServicoDTO;
+import br.com.fiap.soat15.tc_oficina.application.dto.ServicoDTO;
 
 import java.util.List;
 
@@ -15,6 +15,4 @@ public interface ServicoService {
     ServicoDTO obterServicoPorId(Long id);
 
     List<ServicoDTO> listarServicos();
-
-
 }

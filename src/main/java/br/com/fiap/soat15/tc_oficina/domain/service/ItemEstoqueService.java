@@ -1,7 +1,7 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.ItemEstoqueDTO;
-import br.com.fiap.soat15.tc_oficina.infrastructure.entity.ItemEstoque;
+import br.com.fiap.soat15.tc_oficina.application.dto.ItemEstoqueDTO;
+import br.com.fiap.soat15.tc_oficina.domain.entity.ItemEstoque;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,5 +25,4 @@ public interface ItemEstoqueService {
     ItemEstoqueDTO diminuirEstoque(Long id, int quantidade);
 
     BigDecimal calculartotal(Long id, int quantidade);
-
 }
