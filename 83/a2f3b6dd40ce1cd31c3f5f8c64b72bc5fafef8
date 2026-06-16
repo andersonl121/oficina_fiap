@@ -1,0 +1,176 @@
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ExceptionHandlerTest.java
+  s_cd1b63e3bcf9be::t_823892844b5127 10
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-9,11-94
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/Usuario.java
+  s_cd1b63e3bcf9be::t_66dadcc47154a2 1-24
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/exception/BusinessException.java
+  s_cd1b63e3bcf9be::t_ce99cb8a23bd3e 1-7
+src/main/java/br/com/fiap/soat15/tc_oficina/config/security/JwtService.java
+  s_cd1b63e3bcf9be::t_3f68585d5dc113 1-54
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/ItemEstoqueServiceImpl.java
+  s_cd1b63e3bcf9be::t_4facba1a7b3578 1-112
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/validator/DocumentoValidatorTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-104
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/ItemEstoque.java
+  s_cd1b63e3bcf9be::t_c0ae56c28226b6 1-54
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/ClienteDTO.java
+  s_cd1b63e3bcf9be::t_e9a4246caecb42 1-32
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ServicoController.java
+  s_cd1b63e3bcf9be::t_4e8d8fc973d7cf 1-59
+src/main/java/br/com/fiap/soat15/tc_oficina/config/security/UsuarioDetailsService.java
+  s_cd1b63e3bcf9be::t_4b88eddc944d59 1-26
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/StatusOS.java
+  s_cd1b63e3bcf9be::t_abbc065084ebde 1-12
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/OrdemDeServicoControllerIntegrationTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-384
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/LoginRequest.java
+  s_cd1b63e3bcf9be::t_4faaddde665db8 1-9
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/AuthService.java
+  s_cd1b63e3bcf9be::t_2ef0d5aa87d8c7 1-11
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/AuthServiceImpl.java
+  s_cd1b63e3bcf9be::t_cfe51edb62e1e3 1-43
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/VeiculoServiceImplTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-243
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/ClienteService.java
+  s_cd1b63e3bcf9be::t_819099d39f2325 3,9-19
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/ServicoServiceImplTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-200
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/VeiculoServiceImpl.java
+  s_cd1b63e3bcf9be::t_0225b800a06e08 1-95
+src/main/java/br/com/fiap/soat15/tc_oficina/config/SecurityConfig.java
+  s_cd1b63e3bcf9be::t_d0276bfb8cf7f5 1-63
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ClienteControllerTest.java
+  s_cd1b63e3bcf9be::t_f976a0d137abfd 128-129,132-134
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-18,20-127,130-131,135-160,163-164,168-239,241-248,251-254,258-270,273-274,278-279
+  s_cd1b63e3bcf9be::t_1f7a06fc228e5d 161-162,165-167
+  s_cd1b63e3bcf9be::t_9e38e44974d20c 19
+  s_cd1b63e3bcf9be::t_d5d0cd3d3241ee 271-272,275-277
+  s_cd1b63e3bcf9be::t_7c745deaf32ae5 240,249-250,255-257
+src/test/java/br/com/fiap/soat15/tc_oficina/config/security/JwtAuthFilterTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-134
+src/test/java/br/com/fiap/soat15/tc_oficina/config/security/UsuarioDetailsServiceTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-74
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/AvancarStatusDTO.java
+  s_cd1b63e3bcf9be::t_456e4071baf04e 1-18
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/OrdemDeServico.java
+  s_cd1b63e3bcf9be::t_5c37d3c008981f 1-57
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/AdicionarItemDTO.java
+  s_cd1b63e3bcf9be::t_18a4b8b5ce543a 1-39
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/ServicoDTO.java
+  s_cd1b63e3bcf9be::t_6c62d09783796d 1-34
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/ClienteServiceImpl.java
+  s_cd1b63e3bcf9be::t_04d46dd659b40f 1-66
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/ItemOS.java
+  s_cd1b63e3bcf9be::t_aecfd3b4523106 1-41
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ClienteController.java
+  s_cd1b63e3bcf9be::t_a1bbda8ecfe6af 1-120
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/OrdemDeServicoController.java
+  s_cd1b63e3bcf9be::t_6c34f303319339 1-112
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/ClienteServiceImplTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-168
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/Cliente.java
+  s_cd1b63e3bcf9be::t_42168255088b20 1-35
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/VeiculoService.java
+  s_cd1b63e3bcf9be::t_4fa42d3330e0a3 3,6
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/AuthController.java
+  s_cd1b63e3bcf9be::t_e3f03dcd916e77 1-32
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/UsuarioRepository.java
+  s_cd1b63e3bcf9be::t_42fc820137f58a 1-12
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/ServicoService.java
+  s_cd1b63e3bcf9be::t_4bde06382c777d 3
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/CriarOrdemDTO.java
+  s_cd1b63e3bcf9be::t_497355a403e1f4 1-24
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ErrorResponse.java
+  s_cd1b63e3bcf9be::t_9158dbb511501b 1-24
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/ItemOSRepository.java
+  s_cd1b63e3bcf9be::t_280bd7f1fa585f 1-9
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/ServicoRepository.java
+  s_cd1b63e3bcf9be::t_0702faf230e1c9 1-15
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/AuthServiceImplTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-115
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/ItemEstoqueRepository.java
+  s_cd1b63e3bcf9be::t_e0ae6c8826b6b1 1-23
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/Veiculo.java
+  s_cd1b63e3bcf9be::t_94dcf1fafd7408 1-34
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/OrdemDeServicoRepository.java
+  s_cd1b63e3bcf9be::t_0a415cafa23519 1-22
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/ItemEstoqueDTO.java
+  s_cd1b63e3bcf9be::t_0460e46337c735 1-38
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/VeiculoController.java
+  s_cd1b63e3bcf9be::t_f9f8401e676d3a 1-53
+src/main/java/br/com/fiap/soat15/tc_oficina/config/security/JwtAuthFilter.java
+  s_cd1b63e3bcf9be::t_a8c396b0314984 1-53
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/ServicoServiceImpl.java
+  s_cd1b63e3bcf9be::t_19f9e339533b36 1-90
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/validator/PlacaValidatorTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-62
+src/test/java/br/com/fiap/soat15/tc_oficina/domain/validator/StringUtilsTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-38
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/TipoItem.java
+  s_cd1b63e3bcf9be::t_1828f85a8f24ca 1-6
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ServicoControllerIntegrationTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-202
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/OrdemDeServicoServiceImpl.java
+  s_cd1b63e3bcf9be::t_b873c8b6919e59 1-308
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/OrdemDeServicoServiceImplTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-591
+src/test/java/br/com/fiap/soat15/tc_oficina/config/security/JwtServiceTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-79
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ItemEstoqueControllerIntegrationTest.java
+  s_cd1b63e3bcf9be::t_a0c86dd7e02766 22
+  s_cd1b63e3bcf9be::t_5f99f3d7a97ad5 213-222
+  s_cd1b63e3bcf9be::t_a9b31cebf117ea 99-100,103-105
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-21,23-98,101-102,106-120,122-125,129-156,160-162,167-199,202-203,206-212,223-236
+  s_cd1b63e3bcf9be::t_85a923009dc80f 121,126-128
+  s_cd1b63e3bcf9be::t_ffed045b1de80b 157-159,163-166
+  s_cd1b63e3bcf9be::t_b81ca4d914861e 200-201,204-205
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/OrdemDeServicoService.java
+  s_cd1b63e3bcf9be::t_143c6910c9f83b 3
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/LoginResponse.java
+  s_cd1b63e3bcf9be::t_e26536a436d878 1-10
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/ItemEstoqueServiceImplTest.java
+  s_cd1b63e3bcf9be::t_9fd3934d3979d0 142-153
+  s_cd1b63e3bcf9be::t_5677aea41f5262 48
+  s_cd1b63e3bcf9be::t_3b67eb0cabad5c 59
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-47,49-58,60-114,116,118-127,129-141,154
+  s_cd1b63e3bcf9be::t_d3e94b89566784 115,117
+  s_cd1b63e3bcf9be::t_dcdf0f5e80a8ba 128
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/GlobalExceptionHandler.java
+  s_cd1b63e3bcf9be::t_850572ba836fd7 1-91
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/OrdemDeServicoDTO.java
+  s_cd1b63e3bcf9be::t_f482dd04076f6d 1-32
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/VeiculoControllerIntegrationTest.java
+  s_cd1b63e3bcf9be::t_e8e6e627742a63 1-250
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/entity/Servico.java
+  s_cd1b63e3bcf9be::t_c9265ff3942382 1-38
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ItemEstoqueController.java
+  s_cd1b63e3bcf9be::t_7e05b85ca75041 1-106
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/TempoExecucaoDTO.java
+  s_cd1b63e3bcf9be::t_3304779b09edfe 1-15
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/ClienteRepository.java
+  s_cd1b63e3bcf9be::t_6a301c61223a39 1-13
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/ItemEstoqueService.java
+  s_cd1b63e3bcf9be::t_8402690a34e5ed 3-4
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/ItemOSDTO.java
+  s_cd1b63e3bcf9be::t_5838005511693a 1-22
+src/main/java/br/com/fiap/soat15/tc_oficina/application/dto/VeiculoDto.java
+  s_cd1b63e3bcf9be::t_acd55af20715a5 1-26
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/VeiculoRepository.java
+  s_cd1b63e3bcf9be::t_0f3df48c0b3ca0 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "83a2f3b6dd40ce1cd31c3f5f8c64b72bc5fafef8",
+  "prompts": {},
+  "sessions": {
+    "s_cd1b63e3bcf9be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e825fdaa-505c-42a6-bc44-a55bf7b2174a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
