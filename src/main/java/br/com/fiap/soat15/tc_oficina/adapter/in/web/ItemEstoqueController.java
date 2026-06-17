@@ -1,7 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.adapter.in.web;
 
 import br.com.fiap.soat15.tc_oficina.application.dto.ItemEstoqueDTO;
-import br.com.fiap.soat15.tc_oficina.domain.entity.ItemEstoque;
 import br.com.fiap.soat15.tc_oficina.domain.service.ItemEstoqueService;
 import br.com.fiap.soat15.tc_oficina.domain.validator.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,16 +42,7 @@ public class ItemEstoqueController {
             @ApiResponse(responseCode = "404", description = "Item não encontrado")
     })
     public ResponseEntity<ItemEstoqueDTO> consultarItemPorId(@PathVariable Long id) {
-        ItemEstoque item = itemEstoqueService.consultarItemPorId(id);
-        return ResponseEntity.ok(ItemEstoqueDTO.builder()
-                .id(item.getId())
-                .nome(item.getNome())
-                .descricao(item.getDescricao())
-                .quantidadeEstoque(item.getQuantidadeEstoque())
-                .precoUnitario(item.getPrecoUnitario())
-                .tipo(item.getTipo())
-                .ativo(item.getAtivo())
-                .build());
+        return ResponseEntity.ok(itemEstoqueService.consultarItemPorId(id));
     }
 
     @GetMapping("/nome/{nome}")
@@ -80,16 +70,7 @@ public class ItemEstoqueController {
     })
     public ResponseEntity<ItemEstoqueDTO> atualizarItemEstoque(@PathVariable Long id,
                                                                @Valid @RequestBody ItemEstoqueDTO dto) {
-        ItemEstoque item = itemEstoqueService.atualizarItem(id, dto);
-        return ResponseEntity.ok(ItemEstoqueDTO.builder()
-                .id(item.getId())
-                .nome(item.getNome())
-                .descricao(item.getDescricao())
-                .quantidadeEstoque(item.getQuantidadeEstoque())
-                .precoUnitario(item.getPrecoUnitario())
-                .tipo(item.getTipo())
-                .ativo(item.getAtivo())
-                .build());
+        return ResponseEntity.ok(itemEstoqueService.atualizarItem(id, dto));
     }
 
     @DeleteMapping("/{id}")
@@ -99,8 +80,7 @@ public class ItemEstoqueController {
             @ApiResponse(responseCode = "404", description = "Item não encontrado")
     })
     public ResponseEntity<Void> deletarItem(@PathVariable Long id) {
-        ItemEstoque item = itemEstoqueService.consultarItemPorId(id);
-        itemEstoqueService.deletarItem(item);
+        itemEstoqueService.deletarItem(id);
         return ResponseEntity.noContent().build();
     }
 }

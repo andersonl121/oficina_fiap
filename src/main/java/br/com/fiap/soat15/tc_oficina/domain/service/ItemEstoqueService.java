@@ -10,11 +10,11 @@ public interface ItemEstoqueService {
 
     ItemEstoqueDTO criarItem(ItemEstoqueDTO itemEstoque);
 
-    ItemEstoque atualizarItem(Long id, ItemEstoqueDTO itemAtualizado);
+    ItemEstoqueDTO atualizarItem(Long id, ItemEstoqueDTO itemAtualizado);
 
-    void deletarItem(ItemEstoque itemEstoque);
+    void deletarItem(Long id);
 
-    ItemEstoque consultarItemPorId(Long id);
+    ItemEstoqueDTO consultarItemPorId(Long id);
 
     List<ItemEstoqueDTO> consultarItemPorNome(String nomeItem);
 

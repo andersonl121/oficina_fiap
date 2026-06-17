@@ -68,7 +68,7 @@ class ItemEstoqueServiceImplTest {
     void deveBuscarPorId() throws Exception {
         when(itemEstoqueRepository.findByIdAndAtivo(id, true)).thenReturn(Optional.of(itemEstoque));
 
-        ItemEstoque resultado = itemEstoqueService.consultarItemPorId(id);
+        ItemEstoqueDTO resultado = itemEstoqueService.consultarItemPorId(id);
 
         assertThat(resultado.getId()).isEqualTo(id);
         assertThat(resultado.getNome()).isEqualTo(itemEstoque.getNome());
@@ -112,9 +112,9 @@ class ItemEstoqueServiceImplTest {
         itemModificado.setNome("Item modificado");
 
         when(itemEstoqueRepository.findByIdAndAtivo(id, true)).thenReturn(Optional.ofNullable(itemEstoque));
-        when(itemEstoqueService.atualizarItem(id, toDTO(itemModificado))).thenReturn(itemModificado);
+        when(itemEstoqueRepository.save(any())).thenReturn(itemModificado);
 
-        ItemEstoque itemSalvo = itemEstoqueService.atualizarItem(id, toDTO(itemModificado));
+        ItemEstoqueDTO itemSalvo = itemEstoqueService.atualizarItem(id, toDTO(itemModificado));
 
         assertThat(itemSalvo.getId()).isEqualTo(id);
         assertThat(itemSalvo.getNome()).isEqualTo(itemModificado.getNome());
@@ -133,7 +133,9 @@ class ItemEstoqueServiceImplTest {
 
     @Test
     void deveDeletarItem() throws Exception {
-        itemEstoqueService.deletarItem(itemEstoque);
+        when(itemEstoqueRepository.findByIdAndAtivo(id, true)).thenReturn(Optional.of(itemEstoque));
+
+        itemEstoqueService.deletarItem(id);
 
         verify(itemEstoqueRepository).save(any(ItemEstoque.class));
         assertThat(itemEstoque.getAtivo()).isFalse();

@@ -86,9 +86,7 @@ class ItemEstoqueControllerIntegrationTest {
 
     @Test
     void deveBuscarPorId() throws Exception {
-        ItemEstoque entity = criarItem();
-
-        when(itemEstoqueService.consultarItemPorId(1L)).thenReturn(entity);
+        when(itemEstoqueService.consultarItemPorId(1L)).thenReturn(criarDTO());
 
         mockMvc.perform(get("/api/v1/item-estoque/1"))
                 .andExpect(status().isOk())
@@ -143,9 +141,7 @@ class ItemEstoqueControllerIntegrationTest {
 
     @Test
     void deveAtualizarItem() throws Exception {
-        ItemEstoque entity = criarItem();
-
-        when(itemEstoqueService.atualizarItem(any(), any())).thenReturn(entity);
+        when(itemEstoqueService.atualizarItem(any(), any())).thenReturn(criarDTO());
 
         mockMvc.perform(put("/api/v1/item-estoque/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -191,21 +187,19 @@ class ItemEstoqueControllerIntegrationTest {
 
     @Test
     void deveDeletarItem() throws Exception {
-        when(itemEstoqueService.consultarItemPorId(1L)).thenReturn(criarItem());
+        doNothing().when(itemEstoqueService).deletarItem(1L);
         mockMvc.perform(delete("/api/v1/item-estoque/1"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void deletarItem_ComIdInexistente_DeveRetornarNotFound() throws Exception {
-        when(itemEstoqueService.consultarItemPorId(999L)).thenThrow(new NoSuchElementException("Item não encontrado"));
+        doThrow(new NoSuchElementException("Item não encontrado")).when(itemEstoqueService).deletarItem(999L);
 
         mockMvc.perform(delete("/api/v1/item-estoque/999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").value("Item não encontrado"));
-
-        verify(itemEstoqueService, times(1)).consultarItemPorId(999L);
     }
 
 

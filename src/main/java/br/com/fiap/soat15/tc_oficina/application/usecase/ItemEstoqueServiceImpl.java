@@ -38,9 +38,8 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
     }
 
     @Override
-    public ItemEstoque atualizarItem(Long id, ItemEstoqueDTO itemAtualizado) {
-        ItemEstoque itemEstoque = itemEstoqueRepository.findByIdAndAtivo(id, true)
-                .orElseThrow(() -> new NoSuchElementException("Item não encontrado"));
+    public ItemEstoqueDTO atualizarItem(Long id, ItemEstoqueDTO itemAtualizado) {
+        ItemEstoque itemEstoque = buscarEntidade(id);
 
         itemEstoque.setNome(StringUtils.removerAcentos(itemAtualizado.getNome()));
         itemEstoque.setDescricao(itemAtualizado.getDescricao());
@@ -48,13 +47,12 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
         itemEstoque.setPrecoUnitario(itemAtualizado.getPrecoUnitario());
         itemEstoque.setTipo(itemAtualizado.getTipo());
 
-        return itemEstoqueRepository.save(itemEstoque);
+        return toDTO(itemEstoqueRepository.save(itemEstoque));
     }
 
     @Override
-    public ItemEstoque consultarItemPorId(Long id) {
-        return itemEstoqueRepository.findByIdAndAtivo(id, true)
-                .orElseThrow(() -> new NoSuchElementException("Item não encontrado"));
+    public ItemEstoqueDTO consultarItemPorId(Long id) {
+        return toDTO(buscarEntidade(id));
     }
 
     @Override
@@ -74,28 +72,34 @@ public class ItemEstoqueServiceImpl implements ItemEstoqueService {
 
     @Override
     public ItemEstoqueDTO aumentarEstoque(Long id, int quantidade) {
-        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        ItemEstoque itemEstoque = buscarEntidade(id);
         itemEstoque.aumentarEstoque(quantidade);
         return toDTO(itemEstoqueRepository.save(itemEstoque));
     }
 
     @Override
     public ItemEstoqueDTO diminuirEstoque(Long id, int quantidade) {
-        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        ItemEstoque itemEstoque = buscarEntidade(id);
         itemEstoque.reduzirEstoque(quantidade);
         return toDTO(itemEstoqueRepository.save(itemEstoque));
     }
 
     @Override
     public BigDecimal calculartotal(Long id, int quantidade) {
-        ItemEstoque itemEstoque = this.consultarItemPorId(id);
+        ItemEstoque itemEstoque = buscarEntidade(id);
         return itemEstoque.calcularCustoTotal(quantidade);
     }
 
     @Override
-    public void deletarItem(ItemEstoque itemEstoque) {
+    public void deletarItem(Long id) {
+        ItemEstoque itemEstoque = buscarEntidade(id);
         itemEstoque.setAtivo(false);
         itemEstoqueRepository.save(itemEstoque);
+    }
+
+    private ItemEstoque buscarEntidade(Long id) {
+        return itemEstoqueRepository.findByIdAndAtivo(id, true)
+                .orElseThrow(() -> new NoSuchElementException("Item não encontrado"));
     }
 
     private ItemEstoqueDTO toDTO(ItemEstoque item) {
