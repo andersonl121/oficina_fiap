@@ -1,8 +1,9 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.VeiculoDto;
+import br.com.fiap.soat15.tc_oficina.application.dto.VeiculoDto;
 
 import java.util.List;
+
 public interface VeiculoService {
 
     List<VeiculoDto> listarVeiculos();

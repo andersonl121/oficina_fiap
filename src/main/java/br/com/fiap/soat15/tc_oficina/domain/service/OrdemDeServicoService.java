@@ -1,6 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.domain.service;
 
-import br.com.fiap.soat15.tc_oficina.domain.model.*;
+import br.com.fiap.soat15.tc_oficina.application.dto.*;
 
 import java.time.LocalDate;
 import java.util.List;
