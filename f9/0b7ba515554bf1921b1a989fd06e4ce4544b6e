@@ -1,0 +1,33 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/domain/service/ItemEstoqueService.java
+  s_cd1b63e3bcf9be::t_ff62aa39fb2eb1 13,15,17
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/ItemEstoqueServiceImplTest.java
+  s_cd1b63e3bcf9be::t_d784602c912867 115,117
+  s_cd1b63e3bcf9be::t_6d05885f66a41c 136-138
+  s_cd1b63e3bcf9be::t_2c231f324c7e4a 71
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/ItemEstoqueServiceImpl.java
+  s_cd1b63e3bcf9be::t_959014ee9c0691 41-42,50,54-55
+  s_cd1b63e3bcf9be::t_3ba78cceb42bea 75,82,89,94-95,100-102
+  s_cd1b63e3bcf9be::t_4facba1a7b3578 103-104
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ItemEstoqueController.java
+  s_cd1b63e3bcf9be::t_16d45269a47f55 45,73,83
+src/test/java/br/com/fiap/soat15/tc_oficina/adapter/in/web/ItemEstoqueControllerIntegrationTest.java
+  s_cd1b63e3bcf9be::t_95105a079047f4 89
+  s_cd1b63e3bcf9be::t_275f0d50c2de2b 144
+  s_cd1b63e3bcf9be::t_a96b884aaecb8c 190,197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "f90b7ba515554bf1921b1a989fd06e4ce4544b6e",
+  "prompts": {},
+  "sessions": {
+    "s_cd1b63e3bcf9be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e825fdaa-505c-42a6-bc44-a55bf7b2174a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
