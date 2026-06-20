@@ -1026,6 +1026,85 @@
             "header": [],
             "body": {
               "mode": "raw",
+              "raw": "{\r\n    \"novoStatus\": \"CONCLUIDA\",\r\n    \"observacoes\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/ordens/1/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "ordens",
+                "1",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tempo-medio-execucao-por-periodo",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_FIAP}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/ordens/tempo/2026-05-01/2026-05-01",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "ordens",
+                "tempo",
+                "2026-05-01",
+                "2026-05-01"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "consultar-status-atual",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_FIAP}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
               "raw": "{\r\n    \"novoStatus\": \"EM_DIAGNOSTICO\",\r\n    \"observacoes\": \"outros problemas encontrados\"\r\n}",
               "options": {
                 "raw": {
@@ -1060,7 +1139,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "let response = pm.response.json();\r",
+              "const response = pm.response.json();\r",
               "pm.environment.set(\"TOKEN_FIAP\", response.token);"
             ],
             "type": "text/javascript",
@@ -1124,6 +1203,30 @@
         }
       },
       "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }

@@ -11,6 +11,8 @@ public interface OrdemDeServicoService {
 
     OrdemDeServicoDTO obterOrdemPorId(Long id);
 
+    OrdemStatusDTO obterStatus(Long id);
+
     List<OrdemDeServicoDTO> listarOrdens();
 
     List<OrdemDeServicoDTO> listarOrdensPorCliente(Long clienteId);

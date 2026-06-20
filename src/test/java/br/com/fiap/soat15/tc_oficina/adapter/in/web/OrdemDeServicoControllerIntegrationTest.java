@@ -203,6 +203,16 @@ class OrdemDeServicoControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("GET /api/v1/ordens/{id}/status - deve retornar status atual")
+    void deveRetornarStatusAtual() throws Exception {
+        OrdemDeServico ordem = criarOrdemNoBanco();
+
+        mockMvc.perform(get("/api/v1/ordens/{id}/status", ordem.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status", is("ABERTA")));
+    }
+
+    @Test
     @DisplayName("PATCH /api/v1/ordens/{id}/status - deve retornar 400 para transição inválida")
     void deveRetornar400ParaTransicaoInvalida() throws Exception {
         OrdemDeServico ordem = criarOrdemNoBanco();

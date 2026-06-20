@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import br.com.fiap.soat15.tc_oficina.application.dto.OrdemStatusDTO;
 
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -78,6 +79,15 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             throw new NoSuchElementException("Cliente não encontrado: " + clienteId);
         }
         return ordemRepository.findByVeiculoClienteId(clienteId).stream().map(this::toDTO).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrdemStatusDTO obterStatus(Long id) {
+        OrdemDeServico ordem = buscarEntidade(id);
+        return OrdemStatusDTO.builder()
+                .status(ordem.getStatus())
+                .build();
     }
 
     @Override
