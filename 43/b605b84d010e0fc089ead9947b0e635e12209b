@@ -1,0 +1,39 @@
+k8s/app-service.yaml
+  s_cd1b63e3bcf9be::t_8bc613bcff07df 1-16
+k8s/namespace.yaml
+  s_cd1b63e3bcf9be::t_fc87027bb693a8 1-7
+k8s/app-deployment.yaml
+  s_cd1b63e3bcf9be::t_dea10663ada91a 1-52
+k8s/configmap.yaml
+  s_cd1b63e3bcf9be::t_a5381395da14ad 1-10
+k8s/postgres-pvc.yaml
+  s_cd1b63e3bcf9be::t_ed657efc7bf5df 1-14
+k8s/secret.yaml
+  s_cd1b63e3bcf9be::t_3db18aab538874 1-12
+k8s/app-hpa.yaml
+  h_acd2deed7a690e 14-15
+  s_cd1b63e3bcf9be::t_b7f08becf8faee 1-13,16-22
+k8s/postgres-deployment.yaml
+  s_cd1b63e3bcf9be::t_6f4176c62ce461 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "43b605b84d010e0fc089ead9947b0e635e12209b",
+  "prompts": {},
+  "humans": {
+    "h_acd2deed7a690e": {
+      "author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cd1b63e3bcf9be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e825fdaa-505c-42a6-bc44-a55bf7b2174a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
