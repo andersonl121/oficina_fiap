@@ -69,7 +69,9 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
     @Override
     @Transactional(readOnly = true)
     public List<OrdemDeServicoDTO> listarOrdens() {
-        return ordemRepository.findAll().stream().map(this::toDTO).toList();
+        return ordemRepository.findAtivasOrdenadasPorPrioridade(
+                List.of(StatusOS.CONCLUIDA, StatusOS.ENTREGUE)
+        ).stream().map(this::toDTO).toList();
     }
 
     @Override

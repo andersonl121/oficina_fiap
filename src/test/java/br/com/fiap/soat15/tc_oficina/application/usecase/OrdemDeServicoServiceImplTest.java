@@ -163,9 +163,11 @@ class OrdemDeServicoServiceImplTest {
     // --- listarOrdens ---
 
     @Test
-    @DisplayName("Deve listar todas as ordens")
+    @DisplayName("Deve listar ordens ativas ordenadas por prioridade de status")
     void deveListarOrdens() {
-        when(ordemRepository.findAll()).thenReturn(List.of(ordem));
+        when(ordemRepository.findAtivasOrdenadasPorPrioridade(
+                List.of(StatusOS.CONCLUIDA, StatusOS.ENTREGUE)
+        )).thenReturn(List.of(ordem));
 
         List<OrdemDeServicoDTO> resultado = ordemService.listarOrdens();
 
