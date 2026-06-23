@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tc-oficina
+  namespace: oficina
+  labels:
+    app.kubernetes.io/name: tc-oficina
+    app.kubernetes.io/part-of: oficina-fiap
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tc-oficina
+  template:
+    metadata:
+      labels:
+        app: tc-oficina
+    spec:
+      containers:
+        - name: tc-oficina
+          image: oficina-fiap:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: oficina-config
+            - secretRef:
+                name: oficina-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /swagger-ui.html
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /swagger-ui.html
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: oficina
+  labels:
+    app.kubernetes.io/name: tc-oficina
+    app.kubernetes.io/part-of: oficina-fiap

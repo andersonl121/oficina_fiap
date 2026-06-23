@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oficina-config
+  namespace: oficina
+  labels:
+    app.kubernetes.io/name: tc-oficina
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/oficina"
+  SPRING_PROFILES_ACTIVE: "default"
