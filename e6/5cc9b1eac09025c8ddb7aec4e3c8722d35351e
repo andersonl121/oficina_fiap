@@ -1,0 +1,26 @@
+src/main/java/br/com/fiap/soat15/tc_oficina/application/usecase/OrdemDeServicoServiceImpl.java
+  s_cd1b63e3bcf9be::t_dba0a3a463976d 72-74
+src/main/java/br/com/fiap/soat15/tc_oficina/adapter/out/persistence/repository/OrdemDeServicoRepository.java
+  s_cd1b63e3bcf9be::t_43f68644017bf2 7
+  s_cd1b63e3bcf9be::t_ea54624a0e170a 23
+  s_cd1b63e3bcf9be::t_a4fc5f0242cfcb 24-37
+src/test/java/br/com/fiap/soat15/tc_oficina/application/usecase/OrdemDeServicoServiceImplTest.java
+  s_cd1b63e3bcf9be::t_1c6b8f7f85da73 168
+  s_cd1b63e3bcf9be::t_e40343cb9e04d6 166,169-170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "e65cc9b1eac09025c8ddb7aec4e3c8722d35351e",
+  "prompts": {},
+  "sessions": {
+    "s_cd1b63e3bcf9be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e825fdaa-505c-42a6-bc44-a55bf7b2174a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Guilherme Menoci Pessoal <guimenoci@gmail.com>"
+    }
+  }
+}
