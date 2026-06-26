@@ -1,5 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.adapter.in.web;
 
+import br.com.fiap.soat15.tc_oficina.adapter.out.persistence.repository.ItemOSRepository;
 import br.com.fiap.soat15.tc_oficina.domain.entity.Servico;
 import br.com.fiap.soat15.tc_oficina.adapter.out.persistence.repository.ServicoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,10 +33,13 @@ class ServicoControllerIntegrationTest {
 
     @Autowired
     private ServicoRepository servicoRepository;
+    @Autowired
+    private ItemOSRepository itemOsRepository;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        itemOsRepository.deleteAll();
         servicoRepository.deleteAll();
     }
 

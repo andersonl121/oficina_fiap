@@ -1,5 +1,6 @@
 package br.com.fiap.soat15.tc_oficina.adapter.in.web;
 
+import br.com.fiap.soat15.tc_oficina.adapter.out.persistence.repository.OrdemDeServicoRepository;
 import br.com.fiap.soat15.tc_oficina.domain.entity.Cliente;
 import br.com.fiap.soat15.tc_oficina.domain.entity.Veiculo;
 import br.com.fiap.soat15.tc_oficina.adapter.out.persistence.repository.ClienteRepository;
@@ -37,11 +38,15 @@ class VeiculoControllerIntegrationTest {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private OrdemDeServicoRepository ordemDeServicoRepository;
+
     private Cliente clienteSalvo;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        ordemDeServicoRepository.deleteAll();
         veiculoRepository.deleteAll();
         clienteRepository.deleteAll();
 

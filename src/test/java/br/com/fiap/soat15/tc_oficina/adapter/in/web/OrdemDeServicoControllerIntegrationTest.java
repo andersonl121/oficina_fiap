@@ -85,6 +85,8 @@ class OrdemDeServicoControllerIntegrationTest {
         Map<String, Object> body = Map.of(
                 "clienteId", clienteSalvo.getId(),
                 "veiculoId", veiculoSalvo.getId(),
+                "servicoId", servicoSalvo.getId(),
+                "itemEstoqueId", itemEstoqueSalvo.getId(),
                 "descricaoProblema", "Barulho no motor"
         );
 

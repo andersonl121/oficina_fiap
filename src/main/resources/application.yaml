@@ -3,9 +3,9 @@ spring:
     name: tc-oficina
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/oficina}
-    username: ${SPRING_DATASOURCE_USERNAME:oficina}
-    password: ${SPRING_DATASOURCE_PASSWORD:oficina}
+    url: jdbc:postgresql://localhost:5432/oficina
+    username: oficina
+    password: oficina
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -13,9 +13,12 @@ spring:
       ddl-auto: update
     show-sql: false
     open-in-view: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:7d9f3b2c1a8e5f4d6c9b0a7e3f1d8c5b2a9f6e4d1c8b7a5e3f9d2c6b1a8e4f7}
   expiration: 86400000 # 24h em ms
 
 springdoc:
