@@ -28,6 +28,10 @@ public class OrdemDeServico {
     @JoinColumn(name = "veiculo_id", nullable = false)
     private Veiculo veiculo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "servico_id", nullable = true)
+    private Servico servico;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private StatusOS status;

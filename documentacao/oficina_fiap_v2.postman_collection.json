@@ -1,9 +1,9 @@
 {
   "info": {
-    "_postman_id": "755e067a-c750-43ef-a15a-1cb62d60c02c",
+    "_postman_id": "333aa899-3579-4056-a3e3-7c12ff3dfd64",
     "name": "oficina_fiap_v2",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "29068646"
+    "_exporter_id": "28516884"
   },
   "item": [
     {
@@ -445,6 +445,46 @@
           "response": []
         },
         {
+          "name": "create item 2",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_FIAP}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nome\": \"Óleo\",\r\n    \"descricao\": \"Óleo para carro\",\r\n    \"quantidadeEstoque\": 150,\r\n    \"precoUnitario\": 49.99,\r\n    \"tipo\": \"INSUMO\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/item-estoque",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "item-estoque"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "update",
           "request": {
             "auth": {
@@ -518,6 +558,37 @@
           "response": []
         },
         {
+          "name": "findAll",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_FIAP}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/item-estoque",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "item-estoque"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "findById",
           "request": {
             "auth": {
@@ -565,7 +636,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/api/v1/item-estoque/nome/Amortecedor",
+              "raw": "http://localhost:8080/api/v1/item-estoque/nome/oleo",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -576,38 +647,7 @@
                 "v1",
                 "item-estoque",
                 "nome",
-                "Amortecedor"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "findAll",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{TOKEN_FIAP}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/api/v1/item-estoque",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "v1",
-                "item-estoque"
+                "oleo"
               ]
             }
           },
@@ -635,7 +675,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"nome\": \"Troca de Óleo\",\r\n    \"descricao\": \"Troca de óleo e filtro\",\r\n    \"preco\": 120.00,\r\n    \"tempoEstimadoMinutos\": 30\r\n}",
+              "raw": "{\r\n    \"nome\": \"Troca de óleo e Amortecedor\",\r\n    \"descricao\": \"Troca de óleo do motor e Amortecedores dianteiros\",\r\n    \"preco\": 120.00,\r\n    \"tempoEstimadoMinutos\": 60\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -828,7 +868,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"clienteId\": 1,\r\n    \"veiculoId\": 1,\r\n    \"descricaoProblema\": \"Barulho no motor\",\r\n    \"observacoes\": \"carro velho\"\r\n}",
+              "raw": "{\r\n    \"clienteId\": 1,\r\n    \"veiculoId\": 1,\r\n    \"descricaoProblema\": \"Barulho no motor e amortecedores dianteiros\",\r\n    \"observacoes\": \"carro velho\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -852,7 +892,7 @@
           "response": []
         },
         {
-          "name": "adicionar-servicos",
+          "name": "create with itens",
           "request": {
             "auth": {
               "type": "bearer",
@@ -868,7 +908,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"itens\": [\r\n    {\r\n      \"servicoId\": 1,\r\n      \"itemEstoqueId\": 1,\r\n      \"quantidade\": 1\r\n    },\r\n    {\r\n      \"servicoId\": 2,\r\n      \"itemEstoqueId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n    \"clienteId\": 1,\r\n    \"veiculoId\": 1,\r\n    \"servicoId\": 1,\r\n    \"descricaoProblema\": \"Barulho no motor e amortecedores dianteiros\",\r\n    \"observacoes\": \"carro velho\",\r\n    \"itensEstoqueCadastro\": [\r\n        {\r\n            \"itemEstoqueId\": 1,\r\n            \"quantidade\": 2\r\n        },\r\n        {\r\n            \"itemEstoqueId\": 2,\r\n            \"quantidade\": 4\r\n        }\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -876,7 +916,47 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/api/v1/ordens/1/itens",
+              "raw": "http://localhost:8080/api/v1/ordens",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "ordens"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "adicionar-itens-servico",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN_FIAP}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"itens\": [\r\n    {\r\n      \"servicoId\": 1,\r\n      \"itemEstoqueId\": 1,\r\n      \"quantidade\": 1\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/ordens/2/itens",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -886,7 +966,7 @@
                 "api",
                 "v1",
                 "ordens",
-                "1",
+                "2",
                 "itens"
               ]
             }
@@ -894,7 +974,7 @@
           "response": []
         },
         {
-          "name": "remover-servicos",
+          "name": "remover-itens-servico",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1026,85 +1106,6 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"novoStatus\": \"CONCLUIDA\",\r\n    \"observacoes\": \"\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8080/api/v1/ordens/1/status",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "v1",
-                "ordens",
-                "1",
-                "status"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "tempo-medio-execucao-por-periodo",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{TOKEN_FIAP}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/api/v1/ordens/tempo/2026-05-01/2026-05-01",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "v1",
-                "ordens",
-                "tempo",
-                "2026-05-01",
-                "2026-05-01"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "consultar-status-atual",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{TOKEN_FIAP}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
               "raw": "{\r\n    \"novoStatus\": \"EM_DIAGNOSTICO\",\r\n    \"observacoes\": \"outros problemas encontrados\"\r\n}",
               "options": {
                 "raw": {
@@ -1139,8 +1140,8 @@
           "listen": "test",
           "script": {
             "exec": [
-              "const response = pm.response.json();\r",
-              "pm.environment.set(\"TOKEN_FIAP\", response.token);"
+              "let response = pm.response.json();\r",
+              "pm.globals.set(\"TOKEN_FIAP\", response.token);"
             ],
             "type": "text/javascript",
             "packages": {},

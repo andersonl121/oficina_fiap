@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,8 +19,13 @@ public class CriarOrdemDTO {
     @NotNull(message = "veiculoId é obrigatório")
     private Long veiculoId;
 
+    private Long servicoId;
+
+    private List<ItensEstoqueCadastro> itensEstoqueCadastro;
+
     @NotBlank(message = "Descrição do problema é obrigatória")
     private String descricaoProblema;
 
     private String observacoes;
+
 }

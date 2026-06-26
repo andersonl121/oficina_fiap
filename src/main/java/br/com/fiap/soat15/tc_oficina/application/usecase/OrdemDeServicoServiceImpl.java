@@ -19,7 +19,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import br.com.fiap.soat15.tc_oficina.application.dto.OrdemStatusDTO;
 
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -36,6 +35,7 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
     private final VeiculoRepository veiculoRepository;
     private final ServicoRepository servicoRepository;
     private final ItemEstoqueRepository itemEstoqueRepository;
+    private final ItemOSRepository itemOSRepository;
 
     @Override
     @Transactional
@@ -47,9 +47,17 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             throw new BusinessException("Veículo não pertence ao cliente informado");
         }
 
+
+        Servico servico = null;
+        if (dto.getServicoId() != null) {
+            servico = servicoRepository.findById(dto.getServicoId())
+                    .orElseThrow(() -> new NoSuchElementException("Serviço não encontrado: " + dto.getServicoId()));
+        }
+
         OrdemDeServico ordem = OrdemDeServico.builder()
                 .numero(gerarNumero())
                 .veiculo(veiculo)
+                .servico(servico)
                 .status(StatusOS.ABERTA)
                 .dataAbertura(LocalDateTime.now())
                 .descricaoProblema(dto.getDescricaoProblema())
@@ -57,8 +65,30 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
                 .valorTotal(BigDecimal.ZERO)
                 .build();
 
-        return toDTO(ordemRepository.save(ordem));
+        OrdemDeServico ordemSalva = ordemRepository.save(ordem);
+
+        if (dto.getItensEstoqueCadastro() == null || dto.getItensEstoqueCadastro().isEmpty())
+            return toDTO(ordemSalva);
+
+        AdicionarItemDTO itemDTO = this.getAdicionarItemDTO(dto);
+
+        return this.adicionarItens(ordemSalva.getId(), itemDTO);
     }
+
+    public AdicionarItemDTO getAdicionarItemDTO(CriarOrdemDTO osDto) {
+        Long servicoId = osDto.getServicoId();
+
+        List<AdicionarItemDTO.Item> itens = osDto.getItensEstoqueCadastro().stream()
+                .map(itemCad -> AdicionarItemDTO.Item.builder()
+                        .servicoId(servicoId)
+                        .itemEstoqueId(itemCad.getItemEstoqueId())
+                        .quantidade(itemCad.getQuantidade())
+                        .build())
+                .toList();
+
+        return new AdicionarItemDTO(itens);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -171,7 +201,7 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
             ItemEstoque itemEstoque = itemEstoqueRepository.findById(itemDTO.getItemEstoqueId())
                     .orElseThrow(() -> new NoSuchElementException("Item de estoque não encontrado: " + itemDTO.getItemEstoqueId()));
 
-            BigDecimal precoUnitario = servico.getPreco();
+            BigDecimal precoUnitario = itemEstoque.getPrecoUnitario();
             BigDecimal subtotal = precoUnitario.multiply(BigDecimal.valueOf(itemDTO.getQuantidade()));
 
             itemEstoque.reduzirEstoque(itemDTO.getQuantidade());
@@ -186,7 +216,8 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
                     .subtotal(subtotal)
                     .build();
 
-            ordem.getItens().add(item);
+            ItemOS itemSalvo = itemOSRepository.save(item);
+            ordem.getItens().add(itemSalvo);
         }
 
         recalcularTotal(ordem);
@@ -273,7 +304,8 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
     private void recalcularTotal(OrdemDeServico ordem) {
         BigDecimal total = ordem.getItens().stream()
                 .map(ItemOS::getSubtotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .add(ordem.getServico().getPreco());
         ordem.setValorTotal(total);
     }
 
@@ -289,12 +321,15 @@ public class OrdemDeServicoServiceImpl implements OrdemDeServicoService {
         return OrdemDeServicoDTO.builder()
                 .id(ordem.getId())
                 .numero(ordem.getNumero())
+                .status(ordem.getStatus())
                 .clienteId(ordem.getVeiculo().getCliente().getId())
                 .clienteNome(ordem.getVeiculo().getCliente().getNome())
                 .veiculoId(ordem.getVeiculo().getId())
                 .veiculoPlaca(ordem.getVeiculo().getPlaca())
                 .veiculoModelo(ordem.getVeiculo().getModelo())
-                .status(ordem.getStatus())
+                .servicoId(ordem.getServico().getId())
+                .servicoDescricao(ordem.getServico().getDescricao())
+                .servicoPreco(ordem.getServico().getPreco())
                 .dataAbertura(ordem.getDataAbertura())
                 .dataInicioExecucao(ordem.getDataInicioExecucao())
                 .dataFechamento(ordem.getDataFechamento())

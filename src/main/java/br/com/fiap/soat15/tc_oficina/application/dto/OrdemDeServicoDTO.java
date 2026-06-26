@@ -16,12 +16,15 @@ public class OrdemDeServicoDTO {
 
     private Long id;
     private String numero;
+    private StatusOS status;
     private Long clienteId;
     private String clienteNome;
     private Long veiculoId;
     private String veiculoPlaca;
     private String veiculoModelo;
-    private StatusOS status;
+    private Long servicoId;
+    private String servicoDescricao;
+    private BigDecimal servicoPreco;
     private LocalDateTime dataAbertura;
     private LocalDateTime dataInicioExecucao;
     private LocalDateTime dataFechamento;
