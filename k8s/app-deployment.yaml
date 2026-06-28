@@ -18,6 +18,8 @@ spec:
         app: spring-api
 
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
 
         - name: spring-api
@@ -41,7 +43,7 @@ spec:
               value: oficina
 
             - name: JWT_SECRET
-              value: oficina
+              value: T3Nno4Ipybddv14B1yGQmyl2KudK2dRw91708DQuo2E=
 
 
 
