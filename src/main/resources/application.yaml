@@ -24,3 +24,15 @@ springdoc:
     tags-sorter: alpha
   api-docs:
     path: /v1/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
