@@ -15,7 +15,7 @@ spring:
     open-in-view: false
 
 jwt:
-  secret: ${JWT_SECRET:T3Nno4Ipybddv14B1yGQmyl2KudK2dRw91708DQuo2E=}
+  secret: ${JWT_SECRET}
   expiration: 86400000 # 24h em ms
 
 springdoc:
