@@ -124,7 +124,7 @@ jobs:
 
       - name: Aguardar rollout
         run: |
-          kubectl rollout status deployment/spring-api
+          kubectl rollout status deployment/spring-api -n of-fiap
 
       - name: Exibir recursos
         run: |
