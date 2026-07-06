@@ -77,7 +77,11 @@ jobs:
         run: |
           docker push ${{ env.IMAGE_NAME }}
 
-  deploy-kubernetes:
+      - name: Exibir imagem gerada
+        run: |
+          echo ${{ env.IMAGE_NAME }}
+
+  terraform-deploy:
 
     needs: docker-build-push
 
@@ -95,37 +99,49 @@ jobs:
         run: |
           kubectl get nodes
 
-      - name: Criar namespace
+      - name: Verificar Terraform
         run: |
-          kubectl apply -f k8s/namespace.yaml
+          terraform version
 
-      - name: Deploy PostgreSQL
+      - name: Terraform Init
+        working-directory: terraform
         run: |
-          kubectl apply -f k8s/postgres-deployment.yaml
+          terraform init
 
-      - name: Expor PostgreSQL
+      - name: Terraform Validate
+        working-directory: terraform
         run: |
-          kubectl apply -f k8s/postgres-service.yaml
+          terraform validate
 
-      - name: Atualizar imagem da aplicação
+      - name: Terraform Plan
+        working-directory: terraform
         shell: powershell
         run: |
-          (Get-Content k8s/app-deployment.yaml) `
-          -replace 'IMAGE_NAME','${{ env.IMAGE_NAME }}' |
-          Set-Content k8s/app-deployment-generated.yaml
+          terraform plan `
+            -var="image_name=${{ env.IMAGE_NAME }}" `
+            -var="ghcr_username=${{ secrets.GHCR_USERNAME }}" `
+            -var="ghcr_token=${{ secrets.GHCR_TOKEN }}"
 
-      - name: Deploy aplicação
+      - name: Terraform Apply
+        working-directory: terraform
+        shell: powershell
         run: |
-          kubectl apply -f k8s/app-deployment-generated.yaml
-
-      - name: Expor aplicação
-        run: |
-          kubectl apply -f k8s/app-service.yaml
+          terraform apply -auto-approve `
+            -var="image_name=${{ env.IMAGE_NAME }}" `
+            -var="ghcr_username=${{ secrets.GHCR_USERNAME }}" `
+            -var="ghcr_token=${{ secrets.GHCR_TOKEN }}"
 
       - name: Aguardar rollout
         run: |
-          kubectl rollout status deployment/spring-api -n of-fiap
+          kubectl rollout status deployment/spring-api -n of-fiap --timeout=300s
+
+      - name: Mostrar imagem implantada
+        shell: powershell
+        run: |
+          kubectl get deployment spring-api `
+            -n of-fiap `
+            -o jsonpath="{.spec.template.spec.containers[0].image}"
 
       - name: Exibir recursos
         run: |
-          kubectl get all
+          kubectl get all -n of-fiap
