@@ -78,8 +78,8 @@ resource "kubernetes_deployment" "spring_api" {
 
             }
 
-            initial_delay_seconds = 120
-            period_seconds = 10
+            initial_delay_seconds = 240
+            period_seconds = 30
 
           }
 
@@ -92,8 +92,8 @@ resource "kubernetes_deployment" "spring_api" {
 
             }
 
-            initial_delay_seconds = 180
-            period_seconds = 20
+            initial_delay_seconds = 300
+            period_seconds = 30
 
           }
 
