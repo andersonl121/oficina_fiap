@@ -31,21 +31,13 @@ spec:
           ports:
             - containerPort: 8080
 
-          env:
+          envFrom:
 
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/oficina
+            - configMapRef:
+                name: spring-api-config
 
-            - name: SPRING_DATASOURCE_USERNAME
-              value: oficina
-
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: oficina
-
-            - name: JWT_SECRET
-              value: T3Nno4Ipybddv14B1yGQmyl2KudK2dRw91708DQuo2E=
-
-
+            - secretRef:
+                name: spring-api-secret
 
           resources:
             requests:
