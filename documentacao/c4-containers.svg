@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">C4 Nivel 2 - Containers Oficina FIAP</title>
+  <desc id="desc">Diagrama C4 de containers com navegador/Postman, API Spring Boot, PostgreSQL, Docker, Kubernetes, GitHub Actions e GHCR.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #526070; }
+      .boundary { fill: #ffffff; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 7 7; rx: 8; }
+      .boundary-title { font: 700 18px Arial, sans-serif; fill: #334155; }
+      .person { fill: #0f766e; stroke: #115e59; stroke-width: 2; rx: 8; }
+      .container { fill: #2563eb; stroke: #1d4ed8; stroke-width: 2; rx: 8; }
+      .db { fill: #dc2626; stroke: #b91c1c; stroke-width: 2; rx: 8; }
+      .external { fill: #64748b; stroke: #475569; stroke-width: 2; rx: 8; }
+      .label-title { font: 700 19px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .label { font: 400 14px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .type { font: 700 12px Arial, sans-serif; fill: #dbeafe; text-anchor: middle; }
+      .rel { fill: none; stroke: #334155; stroke-width: 2.4; marker-end: url(#arrowhead); }
+      .rel-dashed { fill: none; stroke: #334155; stroke-width: 2.4; stroke-dasharray: 7 7; marker-end: url(#arrowhead); }
+      .rel-text { font: 400 13px Arial, sans-serif; fill: #334155; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1500" height="900"/>
+  <text class="title" x="70" y="70">C4 - Nivel 2: Containers</text>
+  <text class="subtitle" x="70" y="100">Containers e servicos que compoem a solucao</text>
+
+  <rect class="person" x="70" y="210" width="220" height="120"/>
+  <text class="type" x="180" y="242">Pessoa</text>
+  <text class="label-title" x="180" y="280">Usuario</text>
+  <text class="label" x="180" y="308">Admin ou cliente</text>
+
+  <rect class="boundary" x="380" y="145" width="520" height="640"/>
+  <text class="boundary-title" x="410" y="180">Sistema Oficina FIAP</text>
+
+  <rect class="container" x="435" y="230" width="235" height="140"/>
+  <text class="type" x="552" y="262">Container</text>
+  <text class="label-title" x="552" y="300">API Spring Boot</text>
+  <text class="label" x="552" y="328">Java 21, REST, JWT</text>
+  <text class="label" x="552" y="350">porta 8080</text>
+
+  <rect class="container" x="610" y="455" width="235" height="140"/>
+  <text class="type" x="727" y="487">Container</text>
+  <text class="label-title" x="727" y="525">Swagger UI</text>
+  <text class="label" x="727" y="553">Springdoc OpenAPI</text>
+  <text class="label" x="727" y="575">/swagger-ui.html</text>
+
+  <rect class="db" x="435" y="625" width="235" height="120"/>
+  <text class="type" x="552" y="657">Container / Banco</text>
+  <text class="label-title" x="552" y="695">PostgreSQL</text>
+  <text class="label" x="552" y="723">oficina:5432</text>
+
+  <rect class="external" x="70" y="445" width="220" height="120"/>
+  <text class="type" x="180" y="477">Ferramenta externa</text>
+  <text class="label-title" x="180" y="515">Postman</text>
+  <text class="label" x="180" y="543">Collection versionada</text>
+
+  <rect class="boundary" x="985" y="145" width="430" height="640"/>
+  <text class="boundary-title" x="1015" y="180">Plataforma de deploy</text>
+
+  <rect class="external" x="1045" y="230" width="300" height="120"/>
+  <text class="type" x="1195" y="262">Container externo</text>
+  <text class="label-title" x="1195" y="300">GitHub Actions</text>
+  <text class="label" x="1195" y="328">build, teste, imagem, deploy</text>
+
+  <rect class="external" x="1045" y="410" width="300" height="120"/>
+  <text class="type" x="1195" y="442">Container externo</text>
+  <text class="label-title" x="1195" y="480">GHCR</text>
+  <text class="label" x="1195" y="508">ghcr.io/.../spring-api:&lt;sha&gt;</text>
+
+  <rect class="external" x="1045" y="590" width="300" height="120"/>
+  <text class="type" x="1195" y="622">Runtime externo</text>
+  <text class="label-title" x="1195" y="660">Kubernetes</text>
+  <text class="label" x="1195" y="688">namespace of-fiap</text>
+
+  <path class="rel" d="M290 270 H435"/>
+  <text class="rel-text" x="362" y="248">HTTPS/REST</text>
+
+  <path class="rel" d="M290 505 H610"/>
+  <text class="rel-text" x="445" y="485">Importa collection</text>
+
+  <path class="rel" d="M670 300 C735 330 742 390 728 455"/>
+  <text class="rel-text" x="790" y="395">OpenAPI</text>
+
+  <path class="rel" d="M552 370 V625"/>
+  <text class="rel-text" x="500" y="500">JDBC/JPA</text>
+
+  <path class="rel-dashed" d="M900 290 H1045"/>
+  <text class="rel-text" x="972" y="268">CI/CD</text>
+
+  <path class="rel" d="M1195 350 V410"/>
+  <text class="rel-text" x="1264" y="385">push</text>
+
+  <path class="rel" d="M1195 530 V590"/>
+  <text class="rel-text" x="1265" y="565">pull image</text>
+
+  <path class="rel-dashed" d="M1045 650 C930 650 900 520 845 520"/>
+  <text class="rel-text" x="950" y="600">executa imagem</text>
+</svg>

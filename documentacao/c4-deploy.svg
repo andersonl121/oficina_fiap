@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="940" viewBox="0 0 1500 940" role="img" aria-labelledby="title desc">
+  <title id="title">C4 - Deploy Oficina FIAP</title>
+  <desc id="desc">Diagrama C4 de deploy com GitHub Actions, GHCR, runner self-hosted, cluster Kubernetes, namespace, services, pods e banco.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #526070; }
+      .node { fill: #ffffff; stroke: #94a3b8; stroke-width: 2; rx: 8; }
+      .node-title { font: 700 18px Arial, sans-serif; fill: #334155; }
+      .artifact { fill: #64748b; stroke: #475569; stroke-width: 2; rx: 8; }
+      .container { fill: #2563eb; stroke: #1d4ed8; stroke-width: 2; rx: 8; }
+      .db { fill: #dc2626; stroke: #b91c1c; stroke-width: 2; rx: 8; }
+      .service { fill: #0f766e; stroke: #115e59; stroke-width: 2; rx: 8; }
+      .pipeline { fill: #d97706; stroke: #b45309; stroke-width: 2; rx: 8; }
+      .label-title { font: 700 16px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .label { font: 400 13px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .type { font: 700 11px Arial, sans-serif; fill: #dbeafe; text-anchor: middle; }
+      .rel { fill: none; stroke: #334155; stroke-width: 2.2; marker-end: url(#arrowhead); }
+      .rel-dashed { fill: none; stroke: #334155; stroke-width: 2.2; stroke-dasharray: 7 7; marker-end: url(#arrowhead); }
+      .rel-text { font: 400 13px Arial, sans-serif; fill: #334155; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1500" height="940"/>
+  <text class="title" x="70" y="70">C4 - Deploy</text>
+  <text class="subtitle" x="70" y="100">Ambiente de CI/CD e execucao em Kubernetes</text>
+
+  <rect class="node" x="70" y="155" width="370" height="270"/>
+  <text class="node-title" x="100" y="190">GitHub</text>
+
+  <rect class="pipeline" x="115" y="230" width="280" height="135"/>
+  <text class="type" x="255" y="263">Pipeline</text>
+  <text class="label-title" x="255" y="300">GitHub Actions</text>
+  <text class="label" x="255" y="328">mvn clean verify</text>
+  <text class="label" x="255" y="350">docker build/push</text>
+
+  <rect class="node" x="520" y="155" width="330" height="270"/>
+  <text class="node-title" x="550" y="190">Runner self-hosted Windows</text>
+
+  <rect class="pipeline" x="565" y="230" width="240" height="135"/>
+  <text class="type" x="685" y="263">Runtime CI/CD</text>
+  <text class="label-title" x="685" y="300">of-fiap-1</text>
+  <text class="label" x="685" y="328">Docker + kubectl</text>
+  <text class="label" x="685" y="350">Java 21</text>
+
+  <rect class="node" x="930" y="155" width="380" height="270"/>
+  <text class="node-title" x="960" y="190">GitHub Container Registry</text>
+
+  <rect class="artifact" x="985" y="235" width="270" height="120"/>
+  <text class="type" x="1120" y="267">Artefato</text>
+  <text class="label-title" x="1120" y="304">Imagem Docker</text>
+  <text class="label" x="1120" y="332">ghcr.io/.../spring-api:&lt;sha&gt;</text>
+
+  <rect class="node" x="70" y="505" width="1240" height="360"/>
+  <text class="node-title" x="100" y="540">Cluster Kubernetes</text>
+
+  <rect class="node" x="120" y="575" width="1140" height="245"/>
+  <text class="node-title" x="150" y="610">Namespace of-fiap</text>
+
+  <rect class="service" x="180" y="660" width="175" height="105"/>
+  <text class="type" x="267" y="690">Service</text>
+  <text class="label-title" x="267" y="722">of-fiap-app</text>
+  <text class="label" x="267" y="745">ClusterIP:8080</text>
+
+  <rect class="container" x="425" y="640" width="180" height="125"/>
+  <text class="type" x="515" y="672">Pod</text>
+  <text class="label-title" x="515" y="706">spring-api</text>
+  <text class="label" x="515" y="734">replica 1</text>
+
+  <rect class="container" x="665" y="640" width="180" height="125"/>
+  <text class="type" x="755" y="672">Pod</text>
+  <text class="label-title" x="755" y="706">spring-api</text>
+  <text class="label" x="755" y="734">replica 2</text>
+
+  <rect class="service" x="915" y="660" width="160" height="105"/>
+  <text class="type" x="995" y="690">Service</text>
+  <text class="label-title" x="995" y="722">postgres</text>
+  <text class="label" x="995" y="745">ClusterIP:5432</text>
+
+  <rect class="db" x="1125" y="660" width="160" height="105"/>
+  <text class="type" x="1205" y="690">Pod</text>
+  <text class="label-title" x="1205" y="722">PostgreSQL</text>
+  <text class="label" x="1205" y="745">database oficina</text>
+
+  <path class="rel" d="M395 297 H565"/>
+  <text class="rel-text" x="480" y="276">executa jobs</text>
+
+  <path class="rel" d="M805 297 H985"/>
+  <text class="rel-text" x="895" y="276">push image</text>
+
+  <path class="rel-dashed" d="M685 365 C685 470 690 505 690 575"/>
+  <text class="rel-text" x="760" y="480">kubectl apply</text>
+
+  <path class="rel-dashed" d="M1120 355 C1120 470 755 510 755 640"/>
+  <text class="rel-text" x="1000" y="500">pull image</text>
+
+  <path class="rel" d="M355 712 H425"/>
+  <path class="rel" d="M355 712 C455 600 650 600 665 640"/>
+  <text class="rel-text" x="395" y="690">roteia</text>
+
+  <path class="rel" d="M605 705 H915"/>
+  <path class="rel" d="M845 705 H915"/>
+  <text class="rel-text" x="760" y="685">JDBC</text>
+
+  <path class="rel" d="M1075 712 H1125"/>
+  <text class="rel-text" x="1100" y="690">DNS</text>
+</svg>

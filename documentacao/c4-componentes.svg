@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">C4 Nivel 3 - Componentes da API Oficina FIAP</title>
+  <desc id="desc">Diagrama C4 de componentes internos do container API Spring Boot.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #526070; }
+      .boundary { fill: #ffffff; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 7 7; rx: 8; }
+      .boundary-title { font: 700 18px Arial, sans-serif; fill: #334155; }
+      .component { fill: #2563eb; stroke: #1d4ed8; stroke-width: 2; rx: 8; }
+      .security { fill: #d97706; stroke: #b45309; stroke-width: 2; rx: 8; }
+      .domain { fill: #7c3aed; stroke: #6d28d9; stroke-width: 2; rx: 8; }
+      .data { fill: #dc2626; stroke: #b91c1c; stroke-width: 2; rx: 8; }
+      .external { fill: #64748b; stroke: #475569; stroke-width: 2; rx: 8; }
+      .label-title { font: 700 17px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .label { font: 400 13px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .type { font: 700 11px Arial, sans-serif; fill: #dbeafe; text-anchor: middle; }
+      .rel { fill: none; stroke: #334155; stroke-width: 2.2; marker-end: url(#arrowhead); }
+      .rel-text { font: 400 13px Arial, sans-serif; fill: #334155; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1500" height="900"/>
+  <text class="title" x="70" y="70">C4 - Nivel 3: Componentes</text>
+  <text class="subtitle" x="70" y="100">Componentes internos do container API Spring Boot</text>
+
+  <rect class="external" x="70" y="190" width="230" height="120"/>
+  <text class="type" x="185" y="222">Container externo</text>
+  <text class="label-title" x="185" y="260">Swagger/Postman</text>
+  <text class="label" x="185" y="288">Clientes HTTP</text>
+
+  <rect class="boundary" x="370" y="150" width="880" height="655"/>
+  <text class="boundary-title" x="405" y="185">Container: API Spring Boot</text>
+
+  <rect class="component" x="420" y="235" width="230" height="120"/>
+  <text class="type" x="535" y="267">Componente</text>
+  <text class="label-title" x="535" y="303">Controllers REST</text>
+  <text class="label" x="535" y="330">adapter.in.web</text>
+
+  <rect class="security" x="725" y="235" width="230" height="120"/>
+  <text class="type" x="840" y="267">Componente</text>
+  <text class="label-title" x="840" y="303">Security/JWT</text>
+  <text class="label" x="840" y="330">filters, auth, token</text>
+
+  <rect class="component" x="1000" y="235" width="200" height="120"/>
+  <text class="type" x="1100" y="267">Componente</text>
+  <text class="label-title" x="1100" y="303">OpenAPI</text>
+  <text class="label" x="1100" y="330">Swagger config</text>
+
+  <rect class="component" x="420" y="430" width="260" height="130"/>
+  <text class="type" x="550" y="462">Componente</text>
+  <text class="label-title" x="550" y="498">Use cases</text>
+  <text class="label" x="550" y="525">Cliente, Veiculo, Servico,</text>
+  <text class="label" x="550" y="546">Estoque, OS e Auth</text>
+
+  <rect class="domain" x="755" y="430" width="230" height="130"/>
+  <text class="type" x="870" y="462">Componente</text>
+  <text class="label-title" x="870" y="498">Dominio</text>
+  <text class="label" x="870" y="525">entities, validators,</text>
+  <text class="label" x="870" y="546">exceptions</text>
+
+  <rect class="data" x="420" y="640" width="260" height="110"/>
+  <text class="type" x="550" y="672">Componente</text>
+  <text class="label-title" x="550" y="708">Repositories</text>
+  <text class="label" x="550" y="733">Spring Data JPA</text>
+
+  <rect class="data" x="1050" y="640" width="230" height="110"/>
+  <text class="type" x="1165" y="672">Container externo</text>
+  <text class="label-title" x="1165" y="708">PostgreSQL</text>
+  <text class="label" x="1165" y="733">Banco oficina</text>
+
+  <rect class="component" x="1015" y="430" width="205" height="130"/>
+  <text class="type" x="1117" y="462">Componente</text>
+  <text class="label-title" x="1117" y="498">DTOs</text>
+  <text class="label" x="1117" y="525">Contratos da API</text>
+  <text class="label" x="1117" y="546">request/response</text>
+
+  <path class="rel" d="M300 250 H420"/>
+  <text class="rel-text" x="360" y="228">HTTP</text>
+
+  <path class="rel" d="M650 295 H725"/>
+  <text class="rel-text" x="687" y="275">valida JWT</text>
+
+  <path class="rel" d="M955 295 H1000"/>
+  <text class="rel-text" x="980" y="275">docs</text>
+
+  <path class="rel" d="M535 355 V430"/>
+  <text class="rel-text" x="485" y="395">chama</text>
+
+  <path class="rel" d="M680 495 H755"/>
+  <text class="rel-text" x="717" y="475">aplica regras</text>
+
+  <path class="rel" d="M985 495 H1015"/>
+  <text class="rel-text" x="1000" y="475">mapeia</text>
+
+  <path class="rel" d="M550 560 V640"/>
+  <text class="rel-text" x="500" y="604">persiste</text>
+
+  <path class="rel" d="M680 695 H1050"/>
+  <text class="rel-text" x="865" y="675">JDBC</text>
+
+  <path class="rel" d="M840 355 C810 390 800 405 790 430"/>
+  <text class="rel-text" x="842" y="398">usuario</text>
+</svg>

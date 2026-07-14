@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">C4 Nivel 1 - Contexto do Sistema Oficina FIAP</title>
+  <desc id="desc">Diagrama C4 de contexto com usuarios, sistema de gestao de oficina, PostgreSQL, GitHub Actions e GitHub Container Registry.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font: 700 34px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 17px Arial, sans-serif; fill: #526070; }
+      .person { fill: #0f766e; stroke: #115e59; stroke-width: 2; rx: 8; }
+      .system { fill: #2563eb; stroke: #1d4ed8; stroke-width: 2; rx: 8; }
+      .external { fill: #64748b; stroke: #475569; stroke-width: 2; rx: 8; }
+      .db { fill: #dc2626; stroke: #b91c1c; stroke-width: 2; rx: 8; }
+      .label-title { font: 700 21px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .label { font: 400 15px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .type { font: 700 13px Arial, sans-serif; fill: #dbeafe; text-anchor: middle; }
+      .rel { fill: none; stroke: #334155; stroke-width: 2.5; marker-end: url(#arrowhead); }
+      .rel-text { font: 400 14px Arial, sans-serif; fill: #334155; text-anchor: middle; }
+      .legend { font: 400 13px Arial, sans-serif; fill: #526070; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="820"/>
+  <text class="title" x="70" y="70">C4 - Nivel 1: Contexto</text>
+  <text class="subtitle" x="70" y="100">Sistema de Gestao de Oficina Mecanica</text>
+
+  <rect class="person" x="95" y="210" width="250" height="145"/>
+  <text class="type" x="220" y="245">Pessoa</text>
+  <text class="label-title" x="220" y="285">Administrador</text>
+  <text class="label" x="220" y="318">Gerencia clientes, veiculos,</text>
+  <text class="label" x="220" y="340">estoque, servicos e OS</text>
+
+  <rect class="person" x="95" y="505" width="250" height="145"/>
+  <text class="type" x="220" y="540">Pessoa</text>
+  <text class="label-title" x="220" y="580">Cliente</text>
+  <text class="label" x="220" y="613">Consulta ordens de servico</text>
+  <text class="label" x="220" y="635">sem autenticacao</text>
+
+  <rect class="system" x="520" y="310" width="360" height="190"/>
+  <text class="type" x="700" y="350">Sistema de software</text>
+  <text class="label-title" x="700" y="394">Oficina FIAP API</text>
+  <text class="label" x="700" y="430">API REST Java 21 + Spring Boot</text>
+  <text class="label" x="700" y="455">para gestao operacional</text>
+
+  <rect class="db" x="1060" y="190" width="250" height="145"/>
+  <text class="type" x="1185" y="225">Sistema externo / Banco</text>
+  <text class="label-title" x="1185" y="265">PostgreSQL</text>
+  <text class="label" x="1185" y="298">Persistencia dos dados</text>
+  <text class="label" x="1185" y="320">da oficina</text>
+
+  <rect class="external" x="1030" y="455" width="310" height="145"/>
+  <text class="type" x="1185" y="490">Sistema externo</text>
+  <text class="label-title" x="1185" y="530">GitHub Actions</text>
+  <text class="label" x="1185" y="563">Executa CI/CD em runner</text>
+  <text class="label" x="1185" y="585">self-hosted</text>
+
+  <rect class="external" x="1030" y="635" width="310" height="115"/>
+  <text class="type" x="1185" y="668">Sistema externo</text>
+  <text class="label-title" x="1185" y="707">GHCR</text>
+  <text class="label" x="1185" y="735">Armazena imagem Docker</text>
+
+  <path class="rel" d="M345 282 H520"/>
+  <text class="rel-text" x="432" y="260">Usa rotas JWT</text>
+
+  <path class="rel" d="M345 578 C430 578 430 470 520 448"/>
+  <text class="rel-text" x="428" y="555">Consulta OS</text>
+
+  <path class="rel" d="M880 370 C960 330 990 285 1060 263"/>
+  <text class="rel-text" x="980" y="310">Le e grava dados</text>
+
+  <path class="rel" d="M880 430 C960 462 970 512 1030 528"/>
+  <text class="rel-text" x="965" y="485">Recebe deploy</text>
+
+  <path class="rel" d="M1185 600 V635"/>
+  <text class="rel-text" x="1260" y="623">Publica imagem</text>
+
+  <text class="legend" x="70" y="770">Notacao C4: pessoas em verde, sistema em azul, sistemas externos em cinza e banco em vermelho.</text>
+</svg>
