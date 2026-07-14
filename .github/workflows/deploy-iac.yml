@@ -3,7 +3,7 @@ name: Oficina FIAP CI-CD
 on:
   push:
     branches:
-      - main
+      - iac
 
   workflow_dispatch:
 
