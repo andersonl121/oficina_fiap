@@ -122,6 +122,14 @@ jobs:
         run: |
           kubectl apply -f k8s/app-service.yaml
 
+      - name: Aplicar ConfigMap
+        run: |
+          kubectl apply -f k8s/configmap.yaml
+          
+      - name: Aplicar Secret
+        run: |
+          kubectl apply -f k8s/secrets.yaml
+          
       - name: Aguardar rollout
         run: |
           kubectl rollout status deployment/spring-api -n of-fiap
