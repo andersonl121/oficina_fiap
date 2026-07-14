@@ -54,8 +54,8 @@ spec:
               path: /actuator/health/readiness
               port: 8080
 
-            initialDelaySeconds: 120
-            periodSeconds: 10
+            initialDelaySeconds: 240
+            periodSeconds: 40
 
           livenessProbe:
 
@@ -63,5 +63,5 @@ spec:
               path: /actuator/health/liveness
               port: 8080
 
-            initialDelaySeconds: 180
-            periodSeconds: 20
+            initialDelaySeconds: 360
+            periodSeconds: 40
